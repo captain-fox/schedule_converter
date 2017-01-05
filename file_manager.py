@@ -1,7 +1,7 @@
 import glob, os
 os.chdir(".")
 
-def file_loader():
+def search_for_file():
     n = 0
     for file in glob.glob("*.csv"):
 
