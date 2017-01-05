@@ -1,5 +1,5 @@
 import csv
-import file_loader
+import file_loader, group_info
 
 filename = file_loader.file_loader()
 
@@ -31,9 +31,7 @@ with open(filename, 'rt', encoding='windows 1250') as fileinput:
 
     # setting up user_choice to make things simpler for testing
     user_choice = '5I'
+    group_info.collect_group_info(lines, user_choice)
 
-    for row in lines:
-        if row[12] == user_choice:
-            print(row)
 
 
