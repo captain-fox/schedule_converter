@@ -1,16 +1,16 @@
 import csv
+lines = []
+groups = []
 
 with open('plan.csv', 'rt', encoding='windows 1250') as fileinput:
 
     reader = csv.reader(fileinput, delimiter=';')
 
-    # rows = []
-    # for row in reader:
-    #     rows.append(row)
-    # creating a list of groups
-    groups = []
-    #filling up the list of groups
     for row in reader:
+        lines.append(row)
+
+    #filling up the list of groups
+    for row in lines:
         if row[12] in groups:
             continue
         elif row[12] is '':
@@ -24,12 +24,9 @@ with open('plan.csv', 'rt', encoding='windows 1250') as fileinput:
     # user_choice = input('Group?')
 
     # setting up user_choice to make things simpler for testing
-    user_choice = '5I IO2'
+    user_choice = '5I'
 
-    fileinput.seek(0)
-
-    reader = csv.reader(fileinput, delimiter=';')
-    for row in reader:
+    for row in lines:
         if row[12] == user_choice:
             print(row)
 
