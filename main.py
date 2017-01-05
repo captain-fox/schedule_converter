@@ -1,7 +1,7 @@
 import csv
-import file_finder
+import file_loader
 
-filename = file_finder.file_finder()
+filename = file_loader.file_loader()
 
 lines = []
 groups = []
