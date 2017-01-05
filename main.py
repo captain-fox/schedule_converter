@@ -1,8 +1,14 @@
 import csv
+import file_finder
+
+filename = file_finder.file_finder()
+
 lines = []
 groups = []
 
-with open('plan.csv', 'rt', encoding='windows 1250') as fileinput:
+
+
+with open(filename, 'rt', encoding='windows 1250') as fileinput:
 
     reader = csv.reader(fileinput, delimiter=';')
 
@@ -19,7 +25,7 @@ with open('plan.csv', 'rt', encoding='windows 1250') as fileinput:
             groups.append(row[12])
 
     # Just to make sure there's something in 'groups'
-    print(groups[1:])
+    # print(groups[1:])
 
     # user_choice = input('Group?')
 
