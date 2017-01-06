@@ -12,7 +12,7 @@ def search_for_file():
             for filelist in glob.glob("*.csv"):
                 print(filelist)
         elif n < 1:
-            print("No .csv files founf in directory")
+            print("No .csv files found in directory")
             for filelist in glob.glob("*.csv"):
                 print(filelist)
 
