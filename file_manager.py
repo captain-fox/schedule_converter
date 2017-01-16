@@ -23,17 +23,10 @@ def search_for_file():
     return file
 
 
-
-
-
 def add_to_ics(class_title,week_day, start_time, end_time, weeks, class_type, location, lecturer):
-    print("Class: " + class_title)
-    print("Day of the week: " + week_day)
-    print("Start time: " + start_time)
-    print("End time: " + end_time)
-    print("Weeks: " + weeks)
-    print("Type of class: " + class_type)
-    print("Room: " + location)
-    print("Lecturer: " + lecturer + "\n")
+    output_file = open('schedule.ics', 'w')
+    output_file.write('BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\nBEGIN:VEVENT\nDTSTART:20170117T080000Z\nDTEND:20170117T090000Z\nRRULE:FREQ=WEEKLY;UNTIL=20170217T000000Z\nSUMMARY:Event title\nLOCATION:i24 E107\nTRANSP:OPAQUE\nEND:VEVENT\nEND:VCALENDAR')
+    output_file.close()
+
 
 
