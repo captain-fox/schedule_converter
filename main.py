@@ -1,4 +1,7 @@
 import csv
+import calendar
+
+calendar.setfirstweekday(calendar.MONDAY)
 import file_manager, group_info
 
 filename = file_manager.search_for_file()
@@ -20,10 +23,7 @@ print(groups[1:])
 # user_choice = input('Group?')
 
 # setting up user_choice to make things simpler for testing
-user_course = '5I'
+# user_course = '5I'
 user_group = '5I IO2'
-group_info.collect_group_info(lines, user_course, user_group)
-
-
-
+group_info.collect_group_info(lines, user_group)
 
