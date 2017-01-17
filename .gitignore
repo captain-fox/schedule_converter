@@ -6,6 +6,11 @@ __pycache__/
 # C extensions
 *.so
 
+#.ics files
+*.ics
+*.csv
+.idea/
+
 # Distribution / packaging
 .Python
 env/
