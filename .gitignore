@@ -10,6 +10,7 @@ __pycache__/
 *.ics
 *.csv
 .idea/
+test_workspace.py
 
 # Distribution / packaging
 .Python
