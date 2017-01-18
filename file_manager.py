@@ -1,15 +1,16 @@
 import csv
-import glob
 import os
 
 os.chdir(".")
+
 
 def parse_file(filename):
     while True:
             try:
                 if os.path.exists(filename) & filename.endswith('.csv'):
                     print('Opening file: ' + filename + '\n')
-                    return filename
+                    csv_file = open_file(filename)
+                    return csv_file
                     break
                 else:
                     raise FileNotFoundError
@@ -19,26 +20,15 @@ def parse_file(filename):
                 filename = input('Give a proper file name\n')
 
 
+# help function
+def open_file(filename):
+    rows = []
+    with open(filename, 'rt', encoding='windows 1250') as csv_input:
+        reader = csv.reader(csv_input, delimiter=';')
 
-
-
-def search_for_file():
-    n = 0
-    for file in glob.glob("*.csv"):
-
-        n += 1
-
-        if n > 1:
-            print("More than one .csv file found")
-            for filelist in glob.glob("*.csv"):
-                print(filelist)
-        elif n < 1:
-            print("No .csv files found in directory")
-            for filelist in glob.glob("*.csv"):
-                print(filelist)
-
-    print("File found: " + file + "\n")
-    return file
+        for row in reader:
+            rows.append(row)
+    return rows
 
 
 def create_and_prepare_empty_file(grouptitle):
@@ -70,7 +60,6 @@ def get_week_day(week_day):
     return week_day_input
 
 
-
 def add_to_existing_ics(filename, class_title,week_day, start_time, end_time, weeks, class_type, location, lecturer):
     output_file = open(filename, 'a')
 
@@ -79,8 +68,6 @@ def add_to_existing_ics(filename, class_title,week_day, start_time, end_time, we
 
     # temp
     week_day_input = get_week_day(week_day)
-
-
 
     output_file.write('BEGIN:VEVENT\n')
     output_file.write('DTSTART:201701' + str(week_day_input) + 'T' + start_time + '00Z\n')
