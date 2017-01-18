@@ -1,7 +1,25 @@
+import csv
 import glob
 import os
 
 os.chdir(".")
+
+def parse_file(filename):
+    while True:
+            try:
+                if os.path.exists(filename) & filename.endswith('.csv'):
+                    print('Opening file: ' + filename + '\n')
+                    return filename
+                    break
+                else:
+                    raise FileNotFoundError
+
+            except FileNotFoundError:
+                print('No finde por favor!\n')
+                filename = input('Give a proper file name\n')
+
+
+
 
 
 def search_for_file():
@@ -23,12 +41,12 @@ def search_for_file():
     return file
 
 
-def create_and_prepare_empty_file():
-    filemane = 'schedule.ics'
-    newfile = open(filemane, 'w')
+def create_and_prepare_empty_file(grouptitle):
+    filename = (grouptitle + '.ics')
+    newfile = open(filename, 'w')
     newfile.write('BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\n\n')
     newfile.close()
-    return filemane
+    return filename
 
 
 def finalise_file(filename):
@@ -56,8 +74,8 @@ def get_week_day(week_day):
 def add_to_existing_ics(filename, class_title,week_day, start_time, end_time, weeks, class_type, location, lecturer):
     output_file = open(filename, 'a')
 
-    start_time = start_time[0:2] + start_time[3:]
-    end_time = end_time[0:2] + end_time[3:]
+    # start_time = start_time[0:2] + start_time[3:]
+    # end_time = end_time[0:2] + end_time[3:]
 
     # temp
     week_day_input = get_week_day(week_day)
