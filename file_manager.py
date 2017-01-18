@@ -14,13 +14,13 @@ def parse_file(filename):
                     break
                 else:
                     raise FileNotFoundError
-
             except FileNotFoundError:
-                print('No finde por favor!\n')
                 filename = input('Give a proper file name\n')
+            except Exception:
+                print('Oops, something unpredictable went wrong!')
+                break
 
 
-# help function
 def open_file(filename):
     rows = []
     with open(filename, 'rt', encoding='windows 1250') as csv_input:
@@ -29,6 +29,9 @@ def open_file(filename):
         for row in reader:
             rows.append(row)
     return rows
+
+# help functions
+# add a function below to check if the content of file is in proper format!
 
 
 def create_and_prepare_empty_file(grouptitle):
