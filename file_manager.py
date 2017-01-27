@@ -11,7 +11,6 @@ def parse_file(filename):
                     print('Opening file: ' + filename + '\n')
                     csv_file = open_file(filename)
                     return csv_file
-                    break
                 else:
                     raise FileNotFoundError
             except FileNotFoundError:
@@ -63,7 +62,7 @@ def get_week_day(week_day):
     return week_day_input
 
 
-def add_to_existing_ics(filename, class_title,week_day, start_time, end_time, weeks, class_type, location, lecturer):
+def add_to_existing_ics(filename, class_title, week_day, start_time, end_time, weeks, class_type, location, lecturer):
     output_file = open(filename, 'a')
 
     # start_time = start_time[0:2] + start_time[3:]
