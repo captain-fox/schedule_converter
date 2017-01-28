@@ -17,16 +17,24 @@ def set_semester():
     # print('Semester ends on', weekdays[calendar.weekday(end_date[0], end_date[1], end_date[2])])
     print('Semester ends on', weekdays[end_date.weekday()], end_date)
     delta = end_date - start_date
-    print('Semester is', delta.days, 'days long.\n')
+    print('Semester is', delta.days, 'days long.')
+    term = [start_date,end_date]
+    return term
 
+
+def divide_by_weeks(start_date, end_date):
     x = start_date
-    weeknumber = 1
+    weeknumber = 0
     while x <= end_date:
-        print(x, 'is a', weeknumber, weekdays[x.weekday()])
-        x += + timedelta(days=1)
+
         if x.weekday() == 0:
             weeknumber += 1
-            print('')
+            print('\nWeek', weeknumber)
+
+        if x.weekday() not in [5, 6]:  # skipping weekends
+            print(x, 'is', weekdays[x.weekday()])
+        x += + timedelta(days=1)
+
 
 
 # retrieves current date/time
@@ -35,3 +43,6 @@ def set_semester():
 
 
 set_semester()
+
+term = set_semester()
+divide_by_weeks(term[0], term[1])
