@@ -1,4 +1,5 @@
 import file_manager
+import time_keeper
 
 
 def get_groups(rows):
@@ -62,12 +63,13 @@ def collect_group_info(rows, user_group):
                 class_type = row[4]
                 location = row[8]
                 lecturer = row[9]
-                print("Class: " + class_title)
-                print("Day of the week: " + week_day)
-                print("Start time: " + start_time)
-                print("End time: " + end_time)
-                print("Weeks: " + weeks)
-                print("Type of class: " + class_type)
-                print("Room: " + location)
-                print("Lecturer: " + lecturer + "\n")
+                print('Class:', class_title)
+                print('Day of the week:', week_day)
+                print(time_keeper.get_week_day_index(week_day))
+                print('Start time:', start_time)
+                print('End time:', end_time)
+                print('Weeks:', weeks)
+                print('Type of class: ', class_type)
+                print('Room:', location)
+                print('Lecturer: ', lecturer, '\n')
 
