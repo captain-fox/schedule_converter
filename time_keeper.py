@@ -6,21 +6,30 @@ pl_en_weekdays = {'Pn': 'MON', 'Wt': 'TUE', 'Śr': 'WED', 'Czw': 'THU', 'Pt': 'F
 
 
 def set_term():
-    # start_date = date(int(input('Semester begins\nYear: ')), int(input('Month: ')), int(input('Day: ')))
+    # term_start = date(int(input('Semester begins\nYear: ')), int(input('Month: ')), int(input('Day: ')))
+    # term_end = date(int(input('Semester ends\nYear: ')), int(input('Month: ')), int(input('Day: ')))
     term_start = date(2016, 9, 26)
-    # end_date = date(int(input('Semester ends\nYear: ')), int(input('Month: ')), int(input('Day: ')))
     term_end = date(2017, 1, 25)
+
+    # holidays_start = date(int(input('Holidays begin\nYear: ')), int(input('Month: ')), int(input('Day: ')))
+    # holidays_end = date(int(input('Holidays end\nYear: ')), int(input('Month: ')), int(input('Day: ')))
     holidays_start = date(2016, 12, 22)
     holidays_end = date(2017, 1, 2)
-    # print('Semester starts on',weekdays[calendar.weekday(start_date[0], start_date[1], start_date[2])])
+
+    show_term_info(term_start, term_end, holidays_start, holidays_end)
+
+    return [term_start, term_end, holidays_start, holidays_end]
+
+
+def show_term_info(term_start, term_end, holidays_start, holidays_end):
     print('\nSemester starts on', en_weekdays[term_start.weekday()], term_start)
+    print('Semester ends on', en_weekdays[term_end.weekday()], term_end)
+
     print('\nHolidays start on', en_weekdays[holidays_start.weekday()], holidays_start)
     print('Holidays end on', en_weekdays[holidays_end.weekday()], holidays_end)
-    # print('Semester ends on', weekdays[calendar.weekday(end_date[0], end_date[1], end_date[2])])
-    print('\nSemester ends on', en_weekdays[term_end.weekday()], term_end)
+
     delta = term_end - term_start
-    print('Semester is', delta.days, 'days long.')
-    return [term_start, term_end, holidays_start, holidays_end]
+    print('\nSemester is', delta.days, 'days long.')
 
 
 def divide_by_weeks(term_start, term_end, hol_start, hol_end):
