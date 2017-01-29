@@ -16,7 +16,7 @@ def set_term():
     holidays_start = date(2016, 12, 22)
     holidays_end = date(2017, 1, 2)
 
-    show_term_info(term_start, term_end, holidays_start, holidays_end)
+    # show_term_info(term_start, term_end, holidays_start, holidays_end)
 
     return [term_start, term_end, holidays_start, holidays_end]
 
@@ -55,6 +55,36 @@ def divide_by_weeks(term_start, term_end, hol_start, hol_end):
         i += timedelta(days=1)
 
 
+# temp
+def create_events_by_day(term_start, term_end, hol_start, hol_end, class_title, week_day_index, start_time, end_time, class_type, location, lecturer):
+
+    i = term_start
+    week_num = 0
+
+    while i <= term_end:
+
+        if i == hol_start:
+            week_num += 1
+            print('\nHolidays\n')
+            # print('Week', week_num)
+            i = hol_end + timedelta(days=1)
+            continue
+
+        if i.weekday() == 0:
+            week_num += 1
+
+        if i.weekday() == week_day_index:
+            print('\nWeek', week_num)
+            print('Class:', class_title)
+            print(i, 'Day of the week:', en_weekdays[i.weekday()])
+            print('Start time:', start_time)
+            print('End time:', end_time)
+            print('Type of class: ', class_type)
+            print('Room:', location)
+            print('Lecturer: ', lecturer, '\n')
+        i += timedelta(days=1)
+
+
 def get_week_day_index(week_day):
     # week_day_index = list(pl_en_weekdays.keys()).index(week_day)
     week_day_index = pl_weekdays.index(week_day)
@@ -68,3 +98,4 @@ def get_week_day_index(week_day):
 # test
 # term = set_term()
 # divide_by_weeks(term[0], term[1], term[2], term[3])
+# create_events_by_day(term[0], term[1], term[2], term[3], 2)
