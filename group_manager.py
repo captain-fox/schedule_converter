@@ -58,16 +58,16 @@ def collect_group_info(rows, user_group, term):
             else:
                 class_title = row[6]
                 week_day_index = time_keeper.get_week_day_index(row[1])
-                week_day = row[1]
-                start_time = row[2][0:5]
-                end_time = row[2][6:]
-                weeks = row[3]
+                # start_time = row[2][0:5]
+                # end_time = row[2][6:]
+                start_time = row[2][0:2] + row[2][3:5]
+                end_time = row[2][6:8] + row[2][9:]
                 class_type = row[4]
                 location = row[8]
                 lecturer = row[9]
 
-                # print('Day of the week:', time_keeper.get_week_day_index(week_day))
-                time_keeper.create_events_by_day(term[0], term[1], term[2], term[3], class_title, week_day_index, start_time, end_time, class_type, location, lecturer)
+                gathered_data = [class_title, week_day_index, start_time, end_time, class_type, location, lecturer]
+                file_manager.preview_ics_output(term, gathered_data)
 
 
 def test_method_for_groups(rows, user_group):
