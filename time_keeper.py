@@ -16,12 +16,18 @@ def set_term():
     holidays_start = date(2016, 12, 22)
     holidays_end = date(2017, 1, 2)
 
-    # show_term_info(term_start, term_end, holidays_start, holidays_end)
+    term = [term_start, term_end, holidays_start, holidays_end]
 
-    return [term_start, term_end, holidays_start, holidays_end]
+    return term
 
 
-def show_term_info(term_start, term_end, holidays_start, holidays_end):
+def show_term_info(term):
+
+    term_start = term[0]
+    term_end = term[1]
+    holidays_start = term[2]
+    holidays_end = term[3]
+
     print('\nSemester starts on', en_weekdays[term_start.weekday()], term_start)
     print('Semester ends on', en_weekdays[term_end.weekday()], term_end)
 
@@ -32,18 +38,23 @@ def show_term_info(term_start, term_end, holidays_start, holidays_end):
     print('\nSemester is', delta.days, 'days long.')
 
 
-def divide_by_weeks(term_start, term_end, hol_start, hol_end):
+def divide_by_weeks(term):
+
+    term_start = term[0]
+    term_end = term[1]
+    holidays_start = term[2]
+    holidays_end = term[3]
 
     i = term_start
     week_num = 0
 
     while i <= term_end:
 
-        if i == hol_start:
+        if i == holidays_start:
             week_num += 1
             print('\nHolidays\n')
             print('Week', week_num)
-            i = hol_end + timedelta(days=1)
+            i = holidays_end + timedelta(days=1)
             continue
 
         if i.weekday() == 0:
@@ -56,18 +67,23 @@ def divide_by_weeks(term_start, term_end, hol_start, hol_end):
 
 
 # temp
-def create_events_by_day(term_start, term_end, hol_start, hol_end, class_title, week_day_index, start_time, end_time, class_type, location, lecturer):
+def create_events_by_day(term, class_title, week_day_index, start_time, end_time, class_type, location, lecturer):
+
+    term_start = term[0]
+    term_end = term[1]
+    holidays_start = term[2]
+    holidays_end = term[3]
 
     i = term_start
     week_num = 0
 
     while i <= term_end:
 
-        if i == hol_start:
+        if i == holidays_start:
             week_num += 1
             print('\nHolidays\n')
             # print('Week', week_num)
-            i = hol_end + timedelta(days=1)
+            i = holidays_end + timedelta(days=1)
             continue
 
         if i.weekday() == 0:
@@ -96,6 +112,5 @@ def get_week_day_index(week_day):
 # print(datetime.weekday(today))
 
 # test
-# term = set_term()
-# divide_by_weeks(term[0], term[1], term[2], term[3])
-# create_events_by_day(term[0], term[1], term[2], term[3], 2)
+# myterm = set_term()
+# divide_by_weeks(myterm)
