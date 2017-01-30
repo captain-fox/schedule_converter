@@ -27,25 +27,24 @@ def get_weeks(rows):
 # def get_event_repeat(weeks):
 
 
-def parse_data_to_ics(rows, grouptitle):
-    filename = file_manager.create_and_prepare_empty_file(grouptitle)
+def parse_data_to_ics(rows, user_group, term):
+    filename = file_manager.create_and_prepare_empty_file(user_group)
     for row in rows:
-        if row[12] == grouptitle:
-            # Doesn't parse events with empty 'Module' field
+        if row[12] == user_group:
+            # Doesn't print events with empty 'Module' field
             if row[6] == '':
                 continue
             else:
                 class_title = row[6]
-                # week_day = time_keeper.get_week_day_index(row[1])
-                week_day = row[1]
-                # converting start/end time into "hhmm" format for .ics
+                week_day_index = time_keeper.get_week_day_index(row[1])
                 start_time = row[2][0:2] + row[2][3:5]
                 end_time = row[2][6:8] + row[2][9:]
-                weeks = row[3]
                 class_type = row[4]
                 location = row[8]
                 lecturer = row[9]
-                file_manager.add_to_existing_ics(filename, class_title, week_day, start_time, end_time, weeks, class_type, location, lecturer)
+
+                gathered_data = [class_title, week_day_index, start_time, end_time, class_type, location, lecturer]
+                file_manager.add_to_existing_ics(filename, term, gathered_data)
     file_manager.finalise_file(filename)
 
 

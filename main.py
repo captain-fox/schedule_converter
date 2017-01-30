@@ -23,6 +23,6 @@ term = time_keeper.set_term()
 # setting up user_choice to make things simpler for testing
 # user_group = '5I'
 user_group = '5I IO2'
-group_manager.collect_group_info(rows, user_group, term)
-# group_info.parse_data_to_ics(lines, user_group)
+# group_manager.collect_group_info(rows, user_group, term)
+group_manager.parse_data_to_ics(rows, user_group, term)
 

@@ -48,39 +48,47 @@ def finalise_file(filename):
     filename.close()
 
 
-# temp block
-def get_week_day(week_day):
-    if week_day == 'Pn':
-        week_day_input = 16
-    elif week_day == 'Wt':
-        week_day_input = 17
-    elif week_day == 'Śr':
-        week_day_input = 18
-    elif week_day == 'Czw':
-        week_day_input = 19
-    else:
-        week_day_input = 20
-    return week_day_input
-
-
-def add_to_existing_ics(filename, class_title, week_day, start_time, end_time, weeks, class_type, location, lecturer):
+def add_to_existing_ics(filename, term, gathered_data):
     output_file = open(filename, 'a')
 
-    # start_time = start_time[0:2] + start_time[3:]
-    # end_time = end_time[0:2] + end_time[3:]
+    term_start = term[0]
+    term_end = term[1]
+    holidays_start = term[2]
+    holidays_end = term[3]
 
-    # temp
-    week_day_input = get_week_day(week_day)
+    class_title = gathered_data[0]
+    week_day_index = gathered_data[1]
+    start_time = gathered_data[2]
+    end_time = gathered_data[3]
+    class_type = gathered_data[4]
+    location = gathered_data[5]
+    lecturer = gathered_data[6]
 
-    output_file.write('BEGIN:VEVENT\n')
-    output_file.write('DTSTART:201701' + str(week_day_input) + 'T' + start_time + '00Z\n')
-    output_file.write('DTEND:201701' + str(week_day_input) + 'T' + end_time + '00Z\n')
-    # output_file.write('RRULE:FREQ=WEEKLY;UNTIL=20170217T000000Z\n')
-    output_file.write('SUMMARY:' + class_title + '\n')
-    output_file.write('DESCRIPTION: Prowadzący: ' + lecturer + '\n')
-    output_file.write('LOCATION:' + location + '\n')
-    output_file.write('TRANSP:OPAQUE\n')
-    output_file.write('END:VEVENT\n\n')
+    i = term_start
+    week_num = 0
+
+    while i <= term_end:
+
+        if i == holidays_start:
+            week_num += 1
+            i = holidays_end + time_keeper.timedelta(days=1)
+            continue
+
+        if i.weekday() == 0:
+            week_num += 1
+
+        if i.weekday() == week_day_index:
+
+            output_file.write('BEGIN:VEVENT\n')
+            output_file.write('DTSTART;TZID=Europe/Warsaw:' + i.strftime('%Y%m%d') + 'T' + start_time + '00\n')
+            output_file.write('DTEND;TZID=Europe/Warsaw:' + i.strftime('%Y%m%d') + 'T' + end_time + '00\n')
+            output_file.write('SUMMARY:' + class_title + '\n')
+            output_file.write('DESCRIPTION: Prowadzący: ' + lecturer + '\n')
+            output_file.write('LOCATION:' + location + '\n')
+            output_file.write('TRANSP:OPAQUE\n')
+            output_file.write('END:VEVENT\n\n')
+
+        i += time_keeper.timedelta(days=1)
 
     output_file.close()
 
