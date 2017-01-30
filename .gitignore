@@ -8,7 +8,6 @@ __pycache__/
 
 #.ics files
 *.ics
-*.csv
 .idea/
 test_workspace.py
 

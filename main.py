@@ -4,7 +4,7 @@ import group_manager
 import time_keeper
 
 # filename = input('Paste name of a file to process\n')
-filename = 'plan.csv'
+filename = 'schedule.csv'
 rows = file_manager.parse_file(filename)
 
 
@@ -23,6 +23,6 @@ term = time_keeper.set_term()
 # setting up user_choice to make things simpler for testing
 # user_group = '5I'
 user_group = '5I IO2'
-# group_manager.collect_group_info(rows, user_group, term)
-group_manager.parse_data_to_ics(rows, user_group, term)
+group_manager.collect_group_info(rows, user_group, term)
+# group_manager.parse_data_to_ics(rows, user_group, term)
 
