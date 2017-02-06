@@ -5,20 +5,17 @@ import time_keeper
 os.chdir(".")
 
 
-def parse_file(filename):
-    while True:
-            try:
-                if os.path.exists(filename) & filename.endswith('.csv'):
-                    print('Opening file: ' + filename + '\n')
-                    csv_file = open_file(filename)
-                    return csv_file
-                else:
-                    raise FileNotFoundError
-            except FileNotFoundError:
-                filename = input('Give a proper file name\n')
-            except Exception:
-                print('Oops, something unpredictable went wrong!')
-                break
+__headers__ = {
+    'Ref': '',
+    'Day': '',
+    'Time': '',
+    'Weeks': '',
+    'EventCat': '',
+    'Module': '',
+    'Room': '',
+    'Surname': '',
+    'Group': '',
+}
 
 
 def open_file(filename):
@@ -30,8 +27,32 @@ def open_file(filename):
             rows.append(row)
     return rows
 
-# help functions
-# add a function below to check if the content of file is in proper format!
+
+def parse_file(filename):
+    while True:
+            try:
+                if os.path.exists(filename) & filename.endswith('.csv'):
+                    print('Working on file: ' + filename + '\n')
+                    rows = open_file(filename)
+                    check_header(rows[0])
+                    return rows
+                else:
+                    raise FileNotFoundError
+            except FileNotFoundError:
+                filename = input('Give a proper file name\n')
+            except Exception:
+                print('Oops, headers don\'t match!')
+                break
+
+
+def check_header(header_row):
+    for columnHeader in header_row:
+        if columnHeader in __headers__:
+            __headers__[columnHeader] = header_row.index(columnHeader)
+    for value in __headers__.values():
+        if value is '':
+            raise Exception
+    # print(__headers__)
 
 
 def create_and_prepare_empty_file(grouptitle):
