@@ -28,7 +28,7 @@ def get_weeks(rows):
 # def get_event_repeat(weeks):
 
 
-def parse_data_to_ics(rows, user_group, term):
+def create_calendar_for(rows, user_group, term):
     filename = file_manager.create_and_prepare_empty_file(user_group)
     for row in rows:
         if row[12] == user_group:
