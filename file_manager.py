@@ -52,7 +52,7 @@ def check_header(header_row):
     for value in __headers__.values():
         if value is '':
             raise Exception
-    # print(__headers__)
+    print(__headers__)
 
 
 def create_and_prepare_empty_file(grouptitle):

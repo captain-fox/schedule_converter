@@ -13,6 +13,7 @@ def get_groups(rows):
             groups.append(row[12])
     return sorted(groups)
 
+
 def get_weeks(rows):
     weeks = []
     for row in rows:
@@ -69,21 +70,27 @@ def collect_group_info(rows, user_group, term):
                 file_manager.preview_ics_output(term, gathered_data)
 
 
+# Temporary non-functional "help" methods #############################################################################
+
+def from_column(key):
+    return file_manager.__headers__[key]
+
+
 def test_method_for_groups(rows, user_group):
     for row in rows:
         if row[12] == user_group:
-            # Doesn't print events with empty 'Module' field
-            if row[6] == '':
+
+            if row[6] == '':  # Doesn't print events with empty 'Module' field
                 continue
             else:
-                class_title = row[6]
-                week_day = row[1]
-                start_time = row[2][0:5]
-                end_time = row[2][6:]
+                class_title = row[from_column('Module')]
+                week_day = row[file_manager.__headers__['Day']]
+                start_time = row[file_manager.__headers__['Time']][0:5]
+                end_time = row[file_manager.__headers__['Time']][6:]
                 weeks = row[3]
-                class_type = row[4]
-                location = row[8]
-                lecturer = row[9]
+                class_type = row[file_manager.__headers__['EventCat']]
+                location = row[file_manager.__headers__['Room']]
+                lecturer = row[file_manager.__headers__['Surname']]
 
                 print('Class:', class_title)
                 print('Day of the week:', week_day)
