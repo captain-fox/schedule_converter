@@ -76,7 +76,7 @@ def from_column(key):
     return file_manager.__headers__[key]
 
 
-def test_method_for_groups(rows, user_group):
+def preview_events(rows, user_group):
     for row in rows:
         if row[12] == user_group:
 
