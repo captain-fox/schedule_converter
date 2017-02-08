@@ -1,21 +1,10 @@
 import csv
 import os
 import time_keeper
+import group_manager
 
 os.chdir(".")
 
-
-__headers__ = {
-    'Ref': '',
-    'Day': '',
-    'Time': '',
-    'Weeks': '',
-    'EventCat': '',
-    'Module': '',
-    'Room': '',
-    'Surname': '',
-    'Group': '',
-}
 
 
 def open_file(filename):
@@ -47,12 +36,12 @@ def parse_file(filename):
 
 def check_header(header_row):
     for columnHeader in header_row:
-        if columnHeader in __headers__:
-            __headers__[columnHeader] = header_row.index(columnHeader)
-    for value in __headers__.values():
+        if columnHeader in group_manager.__headers__:
+            group_manager.__headers__[columnHeader] = header_row.index(columnHeader)
+    for value in group_manager.__headers__.values():
         if value is '':
             raise Exception
-    print(__headers__)
+    # print(__headers__)
 
 
 def create_and_prepare_empty_file(grouptitle):

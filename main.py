@@ -1,4 +1,3 @@
-import csv
 import file_manager
 import group_manager
 import time_keeper
@@ -14,7 +13,7 @@ groups = group_manager.get_groups(rows)
 # weeks = group_info.get_weeks(lines)
 # print(weeks)
 
-# term
+# Sets term and holidays break
 term = time_keeper.set_term()
 # time_keeper.show_term_info(term)
 
@@ -23,6 +22,7 @@ term = time_keeper.set_term()
 # setting up user_choice to make things simpler for testing
 # user_group = '5I'
 user_group = '5I IO2'
-group_manager.collect_group_info(rows, user_group, term)
+# group_manager.collect_group_info(rows, user_group, term)
+group_manager.preview_events(rows, user_group)
 # group_manager.parse_data_to_ics(rows, user_group, term)
 

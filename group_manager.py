@@ -1,6 +1,17 @@
 import file_manager
 import time_keeper
 
+__headers__ = {
+    'Ref': '',
+    'Day': '',
+    'Time': '',
+    'Weeks': '',
+    'EventCat': '',
+    'Module': '',
+    'Room': '',
+    'Surname': '',
+    'Group': '',
+}
 
 def get_groups(rows):
     groups = []
@@ -70,10 +81,38 @@ def collect_group_info(rows, user_group, term):
                 file_manager.preview_ics_output(term, gathered_data)
 
 
-# Temporary non-functional "help" methods #############################################################################
+# Help methods ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
 
-def from_column(key):
-    return file_manager.__headers__[key]
+def get_day_column():
+    return __headers__['Day']
+
+
+def get_time_column():
+    return __headers__['Time']
+
+
+def get_weeks_column():
+    return __headers__['Weeks']
+
+
+def get_class_column():
+    return __headers__['EventCat']
+
+
+def get_module_column():
+    return __headers__['Module']
+
+
+def get_room_column():
+    return __headers__['Room']
+
+
+def get_teacher_column():
+    return __headers__['Surname']
+
+
+def get_group_column():
+    return __headers__['Group']
 
 
 def preview_events(rows, user_group):
@@ -83,14 +122,14 @@ def preview_events(rows, user_group):
             if row[6] == '':  # Doesn't print events with empty 'Module' field
                 continue
             else:
-                class_title = row[from_column('Module')]
-                week_day = row[file_manager.__headers__['Day']]
-                start_time = row[file_manager.__headers__['Time']][0:5]
-                end_time = row[file_manager.__headers__['Time']][6:]
-                weeks = row[3]
-                class_type = row[file_manager.__headers__['EventCat']]
-                location = row[file_manager.__headers__['Room']]
-                lecturer = row[file_manager.__headers__['Surname']]
+                class_title = row[get_module_column()]
+                week_day = row[get_day_column()]
+                start_time = row[get_time_column()][0:5]
+                end_time = row[get_time_column()][6:]
+                # weeks = row[get_weeks_column()]
+                class_type = row[get_class_column()]
+                location = row[get_room_column()]
+                lecturer = row[get_teacher_column()]
 
                 print('Class:', class_title)
                 print('Day of the week:', week_day)
