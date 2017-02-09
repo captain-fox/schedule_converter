@@ -2,7 +2,6 @@ from datetime import *
 
 en_weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 pl_weekdays = ['Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb', 'Nd']
-pl_en_weekdays = {'Pn': 'MON', 'Wt': 'TUE', 'Śr': 'WED', 'Czw': 'THU', 'Pt': 'FRI', 'Sb': 'SAT', 'Nd': 'SUN'}
 
 
 def set_term():
@@ -19,6 +18,19 @@ def set_term():
     term = [term_start, term_end, holidays_start, holidays_end]
 
     return term
+
+
+def get_week_day_index(week_day):
+    # week_day_index = list(pl_en_weekdays.keys()).index(week_day)
+    week_day_index = pl_weekdays.index(week_day)
+    # print('Index of', week_day_index)
+    return week_day_index
+
+
+# Not used during runtime, help methods for testing –––––––––––––––––––––––––––––––––––––––––––
+
+
+pl_en_weekdays = {'Pn': 'MON', 'Wt': 'TUE', 'Śr': 'WED', 'Czw': 'THU', 'Pt': 'FRI', 'Sb': 'SAT', 'Nd': 'SUN'}
 
 
 def show_term_info(term):
@@ -66,7 +78,6 @@ def divide_by_weeks(term):
         i += timedelta(days=1)
 
 
-# temp
 def create_events_by_day(term, class_title, week_day_index, start_time, end_time, class_type, location, lecturer):
 
     term_start = term[0]
@@ -99,13 +110,6 @@ def create_events_by_day(term, class_title, week_day_index, start_time, end_time
             print('Room:', location)
             print('Lecturer: ', lecturer, '\n')
         i += timedelta(days=1)
-
-
-def get_week_day_index(week_day):
-    # week_day_index = list(pl_en_weekdays.keys()).index(week_day)
-    week_day_index = pl_weekdays.index(week_day)
-    # print('Index of', week_day_index)
-    return week_day_index
 
 # retrieves current date/time
 # today = datetime.today()
