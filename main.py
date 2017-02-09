@@ -7,7 +7,6 @@ import time_keeper
 filename = 'schedule.csv'
 rows = file_manager.parse_file(filename)
 
-
 # Creating list of groups –––––––––––––––––––––––––––––––––––––––––––––––––
 groups = group_manager.get_groups(rows)
 # print(groups[1:])
@@ -18,21 +17,19 @@ groups = group_manager.get_groups(rows)
 term = time_keeper.set_term()
 # time_keeper.show_term_info(term)
 
-
-
-
-# Collecting data for a certain group –––––––––––––––––––––––––––––––––––––
-# user_choice = input('Group?')
-# setting up user_choice to make things simpler for testing
-# user_group = '5I'
+# Collecting data for a certain group (from GUI)–––––––––––––––––––––––––––
+# user_group = input('Group?')
+# faculty_group = input('Lectures group?')
 user_group = '5I IO2'
-
+faculty_group = '5I'
 
 # Preview (does not create a file) ––––––––––––––––––––––––––––––––––––––––
-# group_manager.collect_group_info(rows, user_group, term)
+# group_manager.preview_output_file(rows, user_group, term)
+# group_manager.preview_output_file(rows, faculty_group, term)
 group_manager.preview_events(rows, user_group)
-
+group_manager.preview_events(rows, faculty_group)
 
 # Creates calendar file –––––––––––––––––––––––––––––––––––––––––––––––––––
-# group_manager.parse_data_to_ics(rows, user_group, term)
+# group_manager.create_calendar_for(rows, user_group, term)
+# group_manager.create_calendar_for(rows, faculty_group, term)
 
