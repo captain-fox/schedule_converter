@@ -97,9 +97,6 @@ def create_events_by_day(term, class_title, week_day_index, start_time, end_time
             i = holidays_end + timedelta(days=1)
             continue
 
-        if i.weekday() == 0:
-            week_num += 1
-
         if i.weekday() == week_day_index:
             print('\nWeek', week_num)
             print('Class:', class_title)
@@ -109,6 +106,9 @@ def create_events_by_day(term, class_title, week_day_index, start_time, end_time
             print('Type of class: ', class_type)
             print('Room:', location)
             print('Lecturer: ', lecturer, '\n')
+
+            if i.weekday() == 0:
+                week_num += 1
         i += timedelta(days=1)
 
 # retrieves current date/time
