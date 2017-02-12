@@ -2,7 +2,6 @@ import csv
 import os
 import time_keeper
 import group_manager
-
 os.chdir(".")
 
 
@@ -74,17 +73,17 @@ def add_to_existing_ics(filename, term, gathered_data):
     lecturer = gathered_data[6]
 
     i = term_start
-    week_num = 0
+    # week_num = 0
 
     while i <= term_end:
 
         if i == holidays_start:
-            week_num += 1
+            # week_num += 1
             i = holidays_end + time_keeper.timedelta(days=1)
             continue
 
-        if i.weekday() == 0:
-            week_num += 1
+        # if i.weekday() == 0:
+        #     week_num += 1
 
         if i.weekday() == week_day_index:
 
@@ -102,6 +101,14 @@ def add_to_existing_ics(filename, term, gathered_data):
     output_file.close()
 
 
+def is_even_week(i):
+    if i % 2 == 0:
+        print('Week x2')
+    else:
+        print('Week x1')
+
+
+# Not used during runtime, help methods for testing –––––––––––––––––––––––––––––––––––––––––––
 def preview_ics_output(term, gathered_data):
 
     term_start = term[0]
@@ -118,21 +125,20 @@ def preview_ics_output(term, gathered_data):
     lecturer = gathered_data[6]
 
     i = term_start
-    week_num = 0
+    week_num = 1
 
     while i <= term_end:
 
         if i == holidays_start:
-            week_num += 1
-            # print('Holidays\n')
-            # print('Week', week_num)
+            print('***Ho-ho-holidays***\n')
+            # print('Week', week_num, '\n')
+            # week_num += 1
             i = holidays_end + time_keeper.timedelta(days=1)
             continue
 
-        if i.weekday() == 0:
-            week_num += 1
-
         if i.weekday() == week_day_index:
+            is_even_week(week_num)
+            print('Week:', week_num)
             print('BEGIN:VEVENT')
             print('DTSTART:' + i.strftime('%Y%m%d') + 'T' + start_time + '00')
             print('DTEND:' + i.strftime('%Y%m%d') + 'T' + end_time + '00')
@@ -142,5 +148,8 @@ def preview_ics_output(term, gathered_data):
             print('LOCATION:' + location)
             print('TRANSP:OPAQUE')
             print('END:VEVENT\n')
+
+        if i.weekday() == 6:  # If Sunday, then week_num++
+            week_num += 1
 
         i += time_keeper.timedelta(days=1)
