@@ -47,27 +47,6 @@ def create_calendar_for(rows, user_group, term):
     file_manager.finalise_file(filename)
 
 
-def preview_output_file(rows, user_group, term):
-    for row in rows:
-        if row[get_group_column()] == user_group:
-            # Doesn't print events with empty 'Module' field
-            if row[get_module_column()] == '':
-                continue
-            else:
-                class_title = row[get_module_column()]
-                week_day_index = time_keeper.get_week_day_index(row[get_day_column()])
-                start_time = row[get_time_column()][0:2] + row[get_time_column()][3:5]
-                end_time = row[get_time_column()][6:8] + row[get_time_column()][9:]
-                class_type = row[get_class_column()]
-                location = row[get_room_column()]
-                lecturer = row[get_teacher_column()]
-
-                gathered_data = [class_title, week_day_index, start_time, end_time, class_type, location, lecturer]
-                file_manager.preview_ics_output(term, gathered_data)
-
-
-# Help methods ––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––––
-
 def get_day_column():
     return __headers__['Day']
 
@@ -100,11 +79,31 @@ def get_group_column():
     return __headers__['Group']
 
 
+# Not used during runtime, help methods for testing –––––––––––––––––––––––––––––––––––––––––––
+def preview_output_file(rows, user_group, term):
+    for row in rows:
+        if row[get_group_column()] == user_group:
+            # Doesn't print events with empty 'Module' field
+            if row[get_module_column()] == '':
+                continue
+            else:
+                class_title = row[get_module_column()]
+                week_day_index = time_keeper.get_week_day_index(row[get_day_column()])
+                start_time = row[get_time_column()][0:2] + row[get_time_column()][3:5]
+                end_time = row[get_time_column()][6:8] + row[get_time_column()][9:]
+                class_type = row[get_class_column()]
+                location = row[get_room_column()]
+                lecturer = row[get_teacher_column()]
+
+                gathered_data = [class_title, week_day_index, start_time, end_time, class_type, location, lecturer]
+                file_manager.preview_ics_output(term, gathered_data)
+
+
 def preview_events(rows, user_group):
     for row in rows:
-        if row[12] == user_group:
+        if row[get_group_column()] == user_group:
             # Doesn't print events with empty 'Module' field
-            if row[6] == '':
+            if row[get_module_column()] == '':
                 continue
             else:
                 class_title = row[get_module_column()]
