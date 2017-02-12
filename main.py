@@ -24,10 +24,10 @@ user_group = '5I IO2'
 faculty_group = '5I'
 
 # Preview (does not create a file) ––––––––––––––––––––––––––––––––––––––––
-# group_manager.preview_output_file(rows, user_group, term)
+group_manager.preview_output_file(rows, user_group, term)
 # group_manager.preview_output_file(rows, faculty_group, term)
-group_manager.preview_events(rows, user_group)
-group_manager.preview_events(rows, faculty_group)
+# group_manager.preview_events(rows, user_group)
+# group_manager.preview_events(rows, faculty_group)
 
 # Creates calendar file –––––––––––––––––––––––––––––––––––––––––––––––––––
 # group_manager.create_calendar_for(rows, user_group, term)
