@@ -5,7 +5,6 @@ import time_keeper
 import os
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, QComboBox, QLabel, QCheckBox
-from PyQt5 import QtCore
 
 
 class Window(QWidget):
@@ -49,6 +48,9 @@ class Window(QWidget):
         term_dates1 = QHBoxLayout()
         term_dates1.addStretch()
         term_dates1.addWidget(self.termlable)
+        # term_dates1.addWidget(self.term_start_year)
+        # term_dates1.addWidget(self.term_start_month)
+        # term_dates1.addWidget(self.term_start_day)
         term_dates1.addStretch()
 
         term_dates2 = QHBoxLayout()
@@ -79,7 +81,7 @@ class Window(QWidget):
 
         self.setLayout(main_layout)
         self.setWindowTitle('Generator planu zajęć')
-        self.setGeometry(400, 300, 450, 300)
+        self.setGeometry(400, 300, 550, 400)
         self.show()
 
     def open_file(self):
@@ -107,16 +109,20 @@ class Window(QWidget):
             self.list_of_groups.setEnabled(True)
 
     def create_ics(self):
+        os.chdir(path)
         if self.chx.isChecked():
             for group in self.groups:
-                group_manager.preview_output_file(self.rows, group, self.term)
-                # group_manager.create_calendar_for(self.rows, group, self.term)
+                # group_manager.preview_output_file(self.rows, group, self.term)
+                group_manager.create_calendar_for(self.rows, group, self.term)
         else:
             user_group = self.list_of_groups.currentText()
-            group_manager.preview_output_file(self.rows, user_group, self.term)
-            # group_manager.create_calendar_for(self.rows, user_group, self.term)
+            # group_manager.preview_output_file(self.rows, user_group, self.term)
+            group_manager.create_calendar_for(self.rows, user_group, self.term)
 
 
 app = QApplication(sys.argv)
+dir = os.getcwd()
+path = dir + '/Output'
+# os.mkdir(path)
 writer = Window()
 sys.exit(app.exec_())
