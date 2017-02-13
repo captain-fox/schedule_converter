@@ -16,7 +16,7 @@ __headers__ = {
 
 def get_groups(rows):
     groups = []
-    for row in rows:
+    for row in rows[1:]:
         if row[get_group_column()] in groups:
             continue
         elif row[get_group_column()] is '':
