@@ -84,27 +84,27 @@ class Window(QWidget):
 
     def open_file(self):
         filename = QFileDialog.getOpenFileName(self, 'Open File', os.chdir("."))
-        self.rows = file_manager.parse_file(filename[0])
-        print(filename[0])
+        if filename[0] is not '':
+            self.rows = file_manager.parse_file(filename[0])
+            print(filename[0])
 
-        # Creating list of groups –––––––––––––––––––––––––––––––––––––––––––––––––
-        self.groups = group_manager.get_groups(self.rows)
-        self.list_of_groups.addItems(self.groups)
+            # Creating list of groups –––––––––––––––––––––––––––––––––––––––––––––––––
+            self.groups = group_manager.get_groups(self.rows)
+            self.list_of_groups.addItems(self.groups)
 
-        # Sets term and holidays break
-        self.term = time_keeper.set_term()
-        self.termlable.setVisible(True)
-        self.holidays.setVisible(True)
-        self.list_of_groups.setEnabled(True)
-        self.chx.setEnabled(True)
-        self.generate_ics_button.setEnabled(True)
+            # Sets term and holidays break
+            self.term = time_keeper.set_term()
+            self.termlable.setVisible(True)
+            self.holidays.setVisible(True)
+            self.list_of_groups.setEnabled(True)
+            self.chx.setEnabled(True)
+            self.generate_ics_button.setEnabled(True)
 
     def switch_list(self):
         if self.chx.isChecked():
             self.list_of_groups.setEnabled(False)
         else:
             self.list_of_groups.setEnabled(True)
-
 
     def create_ics(self):
         if self.chx.isChecked():
