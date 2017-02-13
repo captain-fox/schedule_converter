@@ -1,17 +1,17 @@
-
+import urllib
 import file_manager
 import group_manager
 import time_keeper
 import os
 import sys
-from PyQt5.QtWidgets import QApplication, QLineEdit, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, QComboBox, QLabel, QCalendarWidget, QMessageBox
-from PyQt5 import QtCore
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, QComboBox, QLabel, QCheckBox
 
 
 class Window(QWidget):
 
     rows = []
     term = []
+    groups = []
 
     def __init__(self):
         super(Window, self).__init__()
@@ -22,11 +22,15 @@ class Window(QWidget):
         self.open_file_button = QPushButton('Wybierz plik .csv')
         self.open_file_button.clicked.connect(self.open_file)
 
-        self.term = QLabel('Okres zajęć w semestrze źimowym: 2016/9/26 – 2017/1/25')
+        self.termlable = QLabel('Okres zajęć w semestrze źimowym: 2016/9/26 – 2017/1/25')
+        self.termlable.setVisible(False)
         self.holidays = QLabel('Ferie źimowe: 2016/12/22 – 2017/1/2')
+        self.holidays.setVisible(False)
 
         self.choose_group_label = QLabel('Wybierz grupę ćwiczeniwą')
         self.list_of_groups = QComboBox()
+        self.chx = QCheckBox('Wybierz wszystkie')
+        self.chx.clicked.connect(self.switch_list)
 
         self.generate_ics_button = QPushButton("Generuj plik .ics")
         self.generate_ics_button.setEnabled(False)
@@ -39,7 +43,7 @@ class Window(QWidget):
 
         term_dates1 = QHBoxLayout()
         term_dates1.addStretch()
-        term_dates1.addWidget(self.term)
+        term_dates1.addWidget(self.termlable)
         term_dates1.addStretch()
 
         term_dates2 = QHBoxLayout()
@@ -51,6 +55,7 @@ class Window(QWidget):
         select_group_hbox.addStretch()
         select_group_hbox.addWidget(self.choose_group_label)
         select_group_hbox.addWidget(self.list_of_groups)
+        select_group_hbox.addWidget(self.chx)
         select_group_hbox.addStretch()
 
         generate_ics_hbox = QHBoxLayout()
@@ -78,19 +83,31 @@ class Window(QWidget):
         print(filename[0])
 
         # Creating list of groups –––––––––––––––––––––––––––––––––––––––––––––––––
-        groups = group_manager.get_groups(self.rows)
-        self.list_of_groups.addItems(groups)
+        self.groups = group_manager.get_groups(self.rows)
+        self.list_of_groups.addItems(self.groups)
 
         # Sets term and holidays break
         self.term = time_keeper.set_term()
-
+        self.termlable.setVisible(True)
+        self.holidays.setVisible(True)
         self.generate_ics_button.setEnabled(True)
 
-    def create_ics(self):
-        user_group = self.list_of_groups.currentText()
-        group_manager.preview_output_file(self.rows, user_group, self.term)
-        # group_manager.create_calendar_for(self.rows, user_group, self.term)
+    def switch_list(self):
+        if self.chx.isChecked():
+            self.list_of_groups.setEnabled(False)
+        else:
+            self.list_of_groups.setEnabled(True)
 
+
+    def create_ics(self):
+        if self.chx.isChecked():
+            for group in self.groups:
+                group_manager.preview_output_file(self.rows, group, self.term)
+                # group_manager.create_calendar_for(self.rows, group, self.term)
+        else:
+            user_group = self.list_of_groups.currentText()
+            group_manager.preview_output_file(self.rows, user_group, self.term)
+            # group_manager.create_calendar_for(self.rows, user_group, self.term)
 
 
 app = QApplication(sys.argv)
