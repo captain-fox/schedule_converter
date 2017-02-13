@@ -5,6 +5,7 @@ import time_keeper
 import os
 import sys
 from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QVBoxLayout, QHBoxLayout, QFileDialog, QComboBox, QLabel, QCheckBox
+from PyQt5 import QtCore
 
 
 class Window(QWidget):
@@ -27,10 +28,14 @@ class Window(QWidget):
         self.holidays = QLabel('Ferie źimowe: 2016/12/22 – 2017/1/2')
         self.holidays.setVisible(False)
 
-        self.choose_group_label = QLabel('Wybierz grupę ćwiczeniwą')
+        self.choose_group_label = QLabel('Wybierz grupę ćwiczeniową')
         self.list_of_groups = QComboBox()
+        self.list_of_groups.addItem('Wybierz grupę ćwiczeniową')
+        self.list_of_groups.setEnabled(False)
+        # self.list_of_groups.pyqtSignal.connect(self.check_selection())
         self.chx = QCheckBox('Wybierz wszystkie')
         self.chx.clicked.connect(self.switch_list)
+        self.chx.setEnabled(False)
 
         self.generate_ics_button = QPushButton("Generuj plik .ics")
         self.generate_ics_button.setEnabled(False)
@@ -53,7 +58,7 @@ class Window(QWidget):
 
         select_group_hbox = QHBoxLayout()
         select_group_hbox.addStretch()
-        select_group_hbox.addWidget(self.choose_group_label)
+        # select_group_hbox.addWidget(self.choose_group_label)
         select_group_hbox.addWidget(self.list_of_groups)
         select_group_hbox.addWidget(self.chx)
         select_group_hbox.addStretch()
@@ -73,7 +78,7 @@ class Window(QWidget):
         main_layout.addStretch()
 
         self.setLayout(main_layout)
-        self.setWindowTitle('Schedule converter')
+        self.setWindowTitle('Generator planu zajęć')
         self.setGeometry(400, 300, 450, 300)
         self.show()
 
@@ -90,6 +95,8 @@ class Window(QWidget):
         self.term = time_keeper.set_term()
         self.termlable.setVisible(True)
         self.holidays.setVisible(True)
+        self.list_of_groups.setEnabled(True)
+        self.chx.setEnabled(True)
         self.generate_ics_button.setEnabled(True)
 
     def switch_list(self):
