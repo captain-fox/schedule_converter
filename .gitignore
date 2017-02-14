@@ -10,6 +10,7 @@ __pycache__/
 *.ics
 .idea/
 test_workspace.py
+test_workspace2.py
 
 # Distribution / packaging
 .Python
