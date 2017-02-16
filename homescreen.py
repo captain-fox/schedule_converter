@@ -1,7 +1,3 @@
-import urllib
-
-import time
-
 import file_manager
 import group_manager
 import time_keeper
@@ -73,15 +69,17 @@ class Window(QWidget):
         generate_ics_hbox.addWidget(self.generate_ics_button)
         generate_ics_hbox.addStretch()
 
-        # self.pbar = QProgressBar()
-        self.status_label_counter = QLabel()
-        self.status_label_from = QLabel(' from: ')
-        self.status_label_total = QLabel()
+        self.pbar = QProgressBar()
+        self.pbar.setVisible(False)
+        self.status_label = QLabel()
+        self.placeholder = QLabel()
+        self.status_label.setText('Gotowe!')
+        self.status_label.setVisible(False)
         status_hbox = QHBoxLayout()
         status_hbox.addStretch()
-        status_hbox.addWidget(self.status_label_counter)
-        status_hbox.addWidget(self.status_label_from)
-        status_hbox.addWidget(self.status_label_total)
+        status_hbox.addWidget(self.pbar)
+        status_hbox.addWidget(self.placeholder)
+        status_hbox.addWidget(self.status_label)
         status_hbox.addStretch()
 
         main_layout = QVBoxLayout()
@@ -125,27 +123,34 @@ class Window(QWidget):
 
     def create_ics(self):
         os.chdir(path)
+        self.generate_ics_button.setEnabled(False)
+        self.status_label.setVisible(False)
+        self.placeholder.setVisible(False)
 
         if self.chx.isChecked():
-            self.status_label.setVisible(True)
+            self.pbar.setVisible(True)
             i = 0
-            self.status_label_total.setText(str(len(self.groups)))
+            max = int(len(self.groups))
+            self.pbar.setRange(i, max)
             for group in self.groups:
                 # group_manager.preview_output_file(self.rows, group, self.term)
                 group_manager.create_calendar_for(self.rows, group, self.term)
                 i += 1
-                print('iteration: ', i)
-                self.status_label_counter.setText(str(i))
+                self.pbar.setValue(i)
                 QApplication.processEvents()
         else:
             user_group = self.list_of_groups.currentText()
-            # group_manager.preview_output_file(self.rows, user_group, self.term)
             group_manager.create_calendar_for(self.rows, user_group, self.term)
+
+        self.pbar.setVisible(False)
+        self.status_label.setVisible(True)
+        self.generate_ics_button.setEnabled(True)
 
 
 app = QApplication(sys.argv)
-dir = os.getcwd()
-path = dir + '/Output'
-# os.mkdir(path)
+directory = os.getcwd()
+path = directory + '/Output'
+if not os.path.exists(path):
+    os.makedirs(path)
 writer = Window()
 sys.exit(app.exec_())
