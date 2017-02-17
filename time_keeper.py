@@ -4,16 +4,16 @@ en_weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 pl_weekdays = ['Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb', 'Nd']
 
 
-def set_term():
+def set_term(term_start, term_end, holidays_start, holidays_end):
     # term_start = date(int(input('Semester begins\nYear: ')), int(input('Month: ')), int(input('Day: ')))
     # term_end = date(int(input('Semester ends\nYear: ')), int(input('Month: ')), int(input('Day: ')))
-    term_start = date(2016, 9, 26)
-    term_end = date(2017, 1, 25)
+    # term_start = date(2016, 9, 26)
+    # term_end = date(2017, 1, 25)
 
     # holidays_start = date(int(input('Holidays begin\nYear: ')), int(input('Month: ')), int(input('Day: ')))
     # holidays_end = date(int(input('Holidays end\nYear: ')), int(input('Month: ')), int(input('Day: ')))
-    holidays_start = date(2016, 12, 22)
-    holidays_end = date(2017, 1, 2)
+    # holidays_start = date(2016, 12, 22)
+    # holidays_end = date(2017, 1, 2)
 
     term = [term_start, term_end, holidays_start, holidays_end]
 
