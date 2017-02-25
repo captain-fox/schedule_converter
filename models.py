@@ -8,14 +8,14 @@ class Event:
 
     def __init__(self, row):
 
-        self.class_title = row[InputConverter.get_group_column()]
+        self.class_title = ''
         self.week_day = ''
         self.start_time = ''
         self.end_time = ''
         self.weeks = ''
         self.class_type = ''
         self.location = ''
-        self.lecturer = ''
+        self.teacher = ''
 
     def append_to_ics(self, file_name, day):
 
@@ -26,20 +26,20 @@ class Event:
         output_file.write(
             'DTEND;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.end_time + '00\n')
         output_file.write('SUMMARY:' + self.class_title + '\n')
-        output_file.write('DESCRIPTION: Prowadzący: ' + self.lecturer + '\n')
+        output_file.write('DESCRIPTION: Prowadzący: ' + self.teacher + '\n')
         output_file.write('LOCATION:' + self.location + '\n')
         output_file.write('TRANSP:OPAQUE\n')
         output_file.write('END:VEVENT\n\n')
         output_file.close()
 
     # test method
-    def simulate_ics_output(self, day):
+    def preview_ics_output(self, day):
 
         print('BEGIN:VEVENT')
         print('DTSTART;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.start_time + '00')
         print('DTEND;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.end_time + '00')
         print('SUMMARY:' + self.class_title)
-        print('DESCRIPTION: Prowadzący: ' + self.lecturer)
+        print('DESCRIPTION: Prowadzący: ' + self.teacher)
         print('LOCATION:' + self.location)
         print('TRANSP:OPAQUE')
         print('END:VEVENT')
@@ -153,34 +153,73 @@ class InputConverter:
     }
 
     @staticmethod
-    def get_day_column():
+    def day_column():
         return InputConverter.__HEADERS__['Day']
 
     @staticmethod
-    def get_time_column():
+    def time_column():
         return InputConverter.__HEADERS__['Time']
 
     @staticmethod
-    def get_weeks_column():
+    def weeks_column():
         return InputConverter.__HEADERS__['Weeks']
 
     @staticmethod
-    def get_class_column():
+    def class_title_column():
         return InputConverter.__HEADERS__['EventCat']
 
     @staticmethod
-    def get_module_column():
+    def module_column():
         return InputConverter.__HEADERS__['Module']
 
     @staticmethod
-    def get_room_column():
+    def room_column():
         return InputConverter.__HEADERS__['Room']
 
     @staticmethod
-    def get_teacher_column():
+    def teacher_column():
         return InputConverter.__HEADERS__['Surname']
 
     @staticmethod
-    def get_group_column():
+    def group_column():
         return InputConverter.__HEADERS__['Group']
 
+    @staticmethod
+    def get_class_title_from(row):
+        # implementation...
+        return 0
+
+    @staticmethod
+    def get_week_day_from(row):
+        # implementation...
+        return 0
+
+    @staticmethod
+    def get_start_time_from(row):
+        # implementation...
+        return 0
+
+    @staticmethod
+    def get_end_time_from(row):
+        # implementation...
+        return 0
+
+    @staticmethod
+    def get_weeks_from(row):
+        # implementation...
+        return 0
+
+    @staticmethod
+    def get_class_type_from(row):
+        # implementation...
+        return 0
+
+    @staticmethod
+    def get_location_from(row):
+        # implementation...
+        return 0
+
+    @staticmethod
+    def get_teacher_from(row):
+        # implementation...
+        return 0
