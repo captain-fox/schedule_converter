@@ -1,4 +1,9 @@
+import csv
+
+
 class Event:
+
+    TIME_ZONE = 'Europe/Warsaw'
 
     def __init__(self):
 
@@ -14,8 +19,8 @@ class Event:
     def simulate_ics_output(self, day):
 
         print('BEGIN:VEVENT')
-        print('DTSTART;TZID=Europe/Warsaw:' + day.strftime('%Y%m%d') + 'T' + self.start_time + '00')
-        print('DTEND;TZID=Europe/Warsaw:' + day.strftime('%Y%m%d') + 'T' + self.end_time + '00')
+        print('DTSTART;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.start_time + '00')
+        print('DTEND;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.end_time + '00')
         print('SUMMARY:' + self.class_title)
         print('DESCRIPTION: Prowadzący: ' + self.lecturer)
         print('LOCATION:' + self.location)
@@ -24,6 +29,16 @@ class Event:
 
 
 class FileWriter:
+
+    @staticmethod
+    def read_csv_file(filename):
+
+        csv_rows = []
+        with open(filename, 'rt', encoding='windows 1250') as csv_input:
+            reader = csv.reader(csv_input, delimiter=';')
+            for row in reader:
+                csv_rows.append(row)
+        return csv_rows
 
     @staticmethod
     def create_and_prepare_file(grouptitle):
@@ -39,8 +54,8 @@ class FileWriter:
 
         open(output_file, 'a')
         output_file.write('BEGIN:VEVENT\n')
-        output_file.write('DTSTART;TZID=Europe/Warsaw:' + day.strftime('%Y%m%d') + 'T' + event.start_time + '00\n')
-        output_file.write('DTEND;TZID=Europe/Warsaw:' + day.strftime('%Y%m%d') + 'T' + event.end_time + '00\n')
+        output_file.write('DTSTART;TZID=' + event.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + event.start_time + '00\n')
+        output_file.write('DTEND;TZID=' + event.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + event.end_time + '00\n')
         output_file.write('SUMMARY:' + event.class_title + '\n')
         output_file.write('DESCRIPTION: Prowadzący: ' + event.lecturer + '\n')
         output_file.write('LOCATION:' + event.location + '\n')
@@ -54,3 +69,36 @@ class FileWriter:
         open(output_file, 'a')
         output_file.write('END:VCALENDAR')
         output_file.close()
+
+
+class Group:
+
+    __HEADERS__ = {
+        'Ref': '',
+        'Day': '',
+        'Time': '',
+        'Weeks': '',
+        'EventCat': '',
+        'Module': '',
+        'Room': '',
+        'Surname': '',
+        'Group': '',
+    }
+
+    @staticmethod
+    def get_groups(rows):
+
+        number_of_rows = sum(1 for row in rows[1:])
+        # to store unique values only
+        groups = set([])
+        counter = 1
+        try:
+            while counter < number_of_rows:
+                groups.add(rows[counter][12])
+                counter += 1
+        except IndexError:
+            print('Oops. Trying to read white spaces after table. IndexError at row:', counter)
+        # Kicking empty space ''
+        if '' in groups:
+            groups.remove('')
+        return sorted(groups)
