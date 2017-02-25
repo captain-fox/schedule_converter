@@ -6,7 +6,7 @@ class Event:
 
     TIME_ZONE = 'Europe/Warsaw'
 
-    def __init__(self, row):
+    def __init__(self):
 
         self.class_title = ''
         self.week_day = ''
@@ -56,6 +56,7 @@ class FileHandler:
                 reader = csv.reader(csv_input, delimiter=';')
                 for row in reader:
                     csv_rows.append(row)
+                InputConverter.check_header(csv_rows[0])
             print('Working on file: ' + file_name + '\n')
 
             return csv_rows
@@ -66,6 +67,8 @@ class FileHandler:
         except UnicodeDecodeError:
             print('It\'s not even a text file!')
             sys.exit(0)
+        except ValueError:
+            print('Not all headers found')
         except Exception as ex:
             print('Unexpected type of exception: "', ex, '" occurred in read_csv_file method.')
             sys.exit(0)
@@ -151,6 +154,17 @@ class InputConverter:
         'Surname': '',
         'Group': '',
     }
+
+    @staticmethod
+    def check_header(header_row):
+        for columnHeader in header_row:
+            if columnHeader in InputConverter.__HEADERS__:
+                InputConverter.__HEADERS__[columnHeader] = header_row.index(columnHeader)
+        for value in InputConverter.__HEADERS__.values():
+            # show header and index ...
+            if value is '':
+                print('Header not found.')
+                sys.exit(0)
 
     @staticmethod
     def day_column():
