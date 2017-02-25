@@ -8,7 +8,7 @@ class Event:
 
     def __init__(self, row):
 
-        self.class_title = row[Group.get_group_column()]
+        self.class_title = row[InputConverter.get_group_column()]
         self.week_day = ''
         self.start_time = ''
         self.end_time = ''
@@ -30,19 +30,21 @@ class Event:
         print('END:VEVENT')
 
 
-class FileWriter:
+class FileHandler:
 
     @staticmethod
-    def read_csv_file(filename):
+    def read_csv_file(file_name):
 
         csv_rows = []
         try:
-            with open(filename, 'rt', encoding='windows 1250') as csv_input:
+            with open(file_name, 'rt', encoding='windows 1250') as csv_input:
                 reader = csv.reader(csv_input, delimiter=';')
                 for row in reader:
                     csv_rows.append(row)
-            print('Working on file: ' + filename + '\n')
+            print('Working on file: ' + file_name + '\n')
+
             return csv_rows
+
         except FileNotFoundError:
             print('File you\'re trying to read does not exist.')
             sys.exit(0)
@@ -54,14 +56,16 @@ class FileWriter:
             sys.exit(0)
 
     @staticmethod
-    def create_and_prepare_file(grouptitle):
+    def create_and_prepare_file(group):
 
-        filename = (grouptitle + '.ics')
+        file_name = (group + '.ics')
         try:
-            newfile = open(filename, 'w')
+            newfile = open(file_name, 'w')
             newfile.write('BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\n\n')
             newfile.close()
-            return filename
+
+            return file_name
+
         except FileNotFoundError:
             print('File does not exist.')
             sys.exit(0)
@@ -104,17 +108,6 @@ class FileWriter:
 
 class Group:
 
-    __HEADERS__ = {
-        'Day': '',
-        'Time': '',
-        'Weeks': '',
-        'EventCat': '',
-        'Module': '',
-        'Room': '',
-        'Surname': '',
-        'Group': '',
-    }
-
     @staticmethod
     def get_groups(rows):
         counter = 1
@@ -127,10 +120,12 @@ class Group:
             while counter < number_of_rows:
                 groups.add(rows[counter][12])
                 counter += 1
-            # Kicking out empty space '' from set.
+            # Kicking out empty space element from groups
             if '' in groups:
                 groups.remove('')
+
             return sorted(groups)
+
         except IndexError:
             print('Oops. Trying to read white spaces after table. IndexError in row:', counter)
             sys.exit(0)
@@ -141,35 +136,49 @@ class Group:
             print('Unexpected type of exception: "', ex, '" occurred in get_groups method.')
             sys.exit(0)
 
+
+class InputConverter:
+
+    __HEADERS__ = {
+        'Day': '',
+        'Time': '',
+        'Weeks': '',
+        'EventCat': '',
+        'Module': '',
+        'Room': '',
+        'Surname': '',
+        'Group': '',
+    }
+
     @staticmethod
     def get_day_column():
-        return Group.__HEADERS__['Day']
+        return InputConverter.__HEADERS__['Day']
 
     @staticmethod
     def get_time_column():
-        return Group.__HEADERS__['Time']
+        return InputConverter.__HEADERS__['Time']
 
     @staticmethod
     def get_weeks_column():
-        return Group.__HEADERS__['Weeks']
+        return InputConverter.__HEADERS__['Weeks']
 
     @staticmethod
     def get_class_column():
-        return Group.__HEADERS__['EventCat']
+        return InputConverter.__HEADERS__['EventCat']
 
     @staticmethod
     def get_module_column():
-        return Group.__HEADERS__['Module']
+        return InputConverter.__HEADERS__['Module']
 
     @staticmethod
     def get_room_column():
-        return Group.__HEADERS__['Room']
+        return InputConverter.__HEADERS__['Room']
 
     @staticmethod
     def get_teacher_column():
-        return Group.__HEADERS__['Surname']
+        return InputConverter.__HEADERS__['Surname']
 
     @staticmethod
     def get_group_column():
-        return Group.__HEADERS__['Group']
+        return InputConverter.__HEADERS__['Group']
 
