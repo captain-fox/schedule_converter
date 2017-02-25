@@ -6,9 +6,9 @@ class Event:
 
     TIME_ZONE = 'Europe/Warsaw'
 
-    def __init__(self):
+    def __init__(self, row):
 
-        self.class_title = ''
+        self.class_title = row[Group.get_group_column()]
         self.week_day = ''
         self.start_time = ''
         self.end_time = ''
@@ -105,7 +105,6 @@ class FileWriter:
 class Group:
 
     __HEADERS__ = {
-        'Ref': '',
         'Day': '',
         'Time': '',
         'Weeks': '',
@@ -142,4 +141,35 @@ class Group:
             print('Unexpected type of exception: "', ex, '" occurred in get_groups method.')
             sys.exit(0)
 
+    @staticmethod
+    def get_day_column():
+        return Group.__HEADERS__['Day']
+
+    @staticmethod
+    def get_time_column():
+        return Group.__HEADERS__['Time']
+
+    @staticmethod
+    def get_weeks_column():
+        return Group.__HEADERS__['Weeks']
+
+    @staticmethod
+    def get_class_column():
+        return Group.__HEADERS__['EventCat']
+
+    @staticmethod
+    def get_module_column():
+        return Group.__HEADERS__['Module']
+
+    @staticmethod
+    def get_room_column():
+        return Group.__HEADERS__['Room']
+
+    @staticmethod
+    def get_teacher_column():
+        return Group.__HEADERS__['Surname']
+
+    @staticmethod
+    def get_group_column():
+        return Group.__HEADERS__['Group']
 
