@@ -17,6 +17,21 @@ class Event:
         self.location = ''
         self.lecturer = ''
 
+    def append_to_ics(self, file_name, day):
+
+        output_file = open(file_name, 'a')
+        output_file.write('BEGIN:VEVENT\n')
+        output_file.write(
+            'DTSTART;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.start_time + '00\n')
+        output_file.write(
+            'DTEND;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.end_time + '00\n')
+        output_file.write('SUMMARY:' + self.class_title + '\n')
+        output_file.write('DESCRIPTION: Prowadzący: ' + self.lecturer + '\n')
+        output_file.write('LOCATION:' + self.location + '\n')
+        output_file.write('TRANSP:OPAQUE\n')
+        output_file.write('END:VEVENT\n\n')
+        output_file.close()
+
     # test method
     def simulate_ics_output(self, day):
 
@@ -76,19 +91,6 @@ class FileHandler:
             print('Unexpected type of exception: "', ex, '" occurred in create_and_prepare_file method.')
             sys.exit(0)
 
-    @staticmethod
-    def append_to_ics(event, file_name, day):
-
-        output_file = open(file_name, 'a')
-        output_file.write('BEGIN:VEVENT\n')
-        output_file.write('DTSTART;TZID=' + event.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + event.start_time + '00\n')
-        output_file.write('DTEND;TZID=' + event.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + event.end_time + '00\n')
-        output_file.write('SUMMARY:' + event.class_title + '\n')
-        output_file.write('DESCRIPTION: Prowadzący: ' + event.lecturer + '\n')
-        output_file.write('LOCATION:' + event.location + '\n')
-        output_file.write('TRANSP:OPAQUE\n')
-        output_file.write('END:VEVENT\n\n')
-        output_file.close()
 
     @staticmethod
     def finalise_file(file_name):
