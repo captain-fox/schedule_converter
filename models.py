@@ -34,20 +34,34 @@ class FileWriter:
     def read_csv_file(filename):
 
         csv_rows = []
-        with open(filename, 'rt', encoding='windows 1250') as csv_input:
-            reader = csv.reader(csv_input, delimiter=';')
-            for row in reader:
-                csv_rows.append(row)
-        return csv_rows
+        try:
+            with open(filename, 'rt', encoding='windows 1250') as csv_input:
+                reader = csv.reader(csv_input, delimiter=';')
+                for row in reader:
+                    csv_rows.append(row)
+            return csv_rows
+        except FileNotFoundError:
+            print('File does not exist.')
+        except UnicodeDecodeError:
+            print('It\'s not even a text file!')
+        except Exception:
+            print('It was not a usual exception, check read_csv_file method in FileWriter.')
 
     @staticmethod
     def create_and_prepare_file(grouptitle):
 
         filename = (grouptitle + '.ics')
-        newfile = open(filename, 'w')
-        newfile.write('BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\n\n')
-        newfile.close()
-        return filename
+        try:
+            newfile = open(filename, 'w')
+            newfile.write('BEGIN:VCALENDAR\nVERSION:2.0\nCALSCALE:GREGORIAN\n\n')
+            newfile.close()
+            return filename
+        except FileNotFoundError:
+            print('File does not exist.')
+        except UnicodeDecodeError:
+            print('It\'s not even a text file!')
+        except Exception:
+            print('It was not a usual exception, check create_and_prepare_file method in FileWriter.')
 
     @staticmethod
     def append_to_ics(event, output_file, day):
