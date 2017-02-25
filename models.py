@@ -1,4 +1,5 @@
 import csv
+import sys
 
 
 class Event:
@@ -16,6 +17,7 @@ class Event:
         self.location = ''
         self.lecturer = ''
 
+    # test method
     def simulate_ics_output(self, day):
 
         print('BEGIN:VEVENT')
@@ -39,13 +41,17 @@ class FileWriter:
                 reader = csv.reader(csv_input, delimiter=';')
                 for row in reader:
                     csv_rows.append(row)
+            print('Working on file: ' + filename + '\n')
             return csv_rows
         except FileNotFoundError:
-            print('File does not exist.')
+            print('File you\'re trying to read does not exist.')
+            sys.exit(0)
         except UnicodeDecodeError:
             print('It\'s not even a text file!')
-        except Exception:
-            print('It was not a usual exception, check read_csv_file method in FileWriter.')
+            sys.exit(0)
+        except Exception as ex:
+            print('Unexpected type of exception: "', ex, '" occurred in read_csv_file method.')
+            sys.exit(0)
 
     @staticmethod
     def create_and_prepare_file(grouptitle):
@@ -58,15 +64,18 @@ class FileWriter:
             return filename
         except FileNotFoundError:
             print('File does not exist.')
+            sys.exit(0)
         except UnicodeDecodeError:
             print('It\'s not even a text file!')
-        except Exception:
-            print('It was not a usual exception, check create_and_prepare_file method in FileWriter.')
+            sys.exit(0)
+        except Exception as ex:
+            print('Unexpected type of exception: "', ex, '" occurred in create_and_prepare_file method.')
+            sys.exit(0)
 
     @staticmethod
-    def append_to_ics(event, output_file, day):
+    def append_to_ics(event, file_name, day):
 
-        open(output_file, 'a')
+        output_file = open(file_name, 'a')
         output_file.write('BEGIN:VEVENT\n')
         output_file.write('DTSTART;TZID=' + event.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + event.start_time + '00\n')
         output_file.write('DTEND;TZID=' + event.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + event.end_time + '00\n')
@@ -78,11 +87,19 @@ class FileWriter:
         output_file.close()
 
     @staticmethod
-    def finalise_file(output_file):
+    def finalise_file(file_name):
 
-        open(output_file, 'a')
+        output_file = open(file_name, 'a')
         output_file.write('END:VCALENDAR')
         output_file.close()
+
+    @staticmethod
+    def add_to_existing_ics(file_name, event):
+        if isinstance(event, Event):
+            output_file = open(file_name, 'a')
+            print('Further implementation...')
+
+            output_file.close()
 
 
 class Group:
@@ -101,18 +118,28 @@ class Group:
 
     @staticmethod
     def get_groups(rows):
-
-        number_of_rows = sum(1 for row in rows[1:])
-        # to store unique values only
-        groups = set([])
         counter = 1
+
         try:
+            number_of_rows = sum(1 for row in rows[1:])
+            #using set to store unique values only
+            groups = set([])
+
             while counter < number_of_rows:
                 groups.add(rows[counter][12])
                 counter += 1
+            # Kicking out empty space '' from set.
+            if '' in groups:
+                groups.remove('')
+            return sorted(groups)
         except IndexError:
-            print('Oops. Trying to read white spaces after table. IndexError at row:', counter)
-        # Kicking empty space ''
-        if '' in groups:
-            groups.remove('')
-        return sorted(groups)
+            print('Oops. Trying to read white spaces after table. IndexError in row:', counter)
+            sys.exit(0)
+        except TypeError:
+            print('get_groups method in \'Groups\' tried to read non-existing file or file with unexpected structure.')
+            sys.exit(0)
+        except Exception as ex:
+            print('Unexpected type of exception: "', ex, '" occurred in get_groups method.')
+            sys.exit(0)
+
+
