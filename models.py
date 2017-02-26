@@ -6,9 +6,9 @@ class Event:
 
     TIME_ZONE = 'Europe/Warsaw'
 
-    def __init__(self):
+    def __init__(self, row):
 
-        self.class_title = ''
+        self.class_title = InputConverter.get_class_title_from(row)
         self.week_day = ''
         self.start_time = ''
         self.end_time = ''
@@ -94,7 +94,6 @@ class FileHandler:
             print('Unexpected type of exception: "', ex, '" occurred in create_and_prepare_file method.')
             sys.exit(0)
 
-
     @staticmethod
     def finalise_file(file_name):
 
@@ -152,8 +151,11 @@ class InputConverter:
         'Module': '',
         'Room': '',
         'Surname': '',
-        'Group': '',
+        'Group': ''
     }
+
+    pl_weekdays = ['Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb', 'Nd']
+    # en_weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
     @staticmethod
     def check_header(header_row):
@@ -165,6 +167,11 @@ class InputConverter:
             if value is '':
                 print('Header not found.')
                 sys.exit(0)
+
+    @staticmethod
+    def get_week_day_index(week_day):
+        d_index = InputConverter.pl_weekdays.index(week_day)
+        return d_index
 
     @staticmethod
     def day_column():
@@ -200,8 +207,7 @@ class InputConverter:
 
     @staticmethod
     def get_class_title_from(row):
-        # implementation...
-        return 0
+        return row[InputConverter.teacher_column()]
 
     @staticmethod
     def get_week_day_from(row):
