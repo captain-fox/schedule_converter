@@ -8,14 +8,14 @@ class Event:
 
     def __init__(self, row):
 
-        self.class_title = InputConverter.get_class_title_from(row)
-        self.week_day = ''
-        self.start_time = ''
-        self.end_time = ''
+        self.class_title = self.get_class_title_from(row)
+        self.week_day = self.get_week_day_from(row)
+        self.start_time = self.get_start_time_from(row)
+        self.end_time = self.get_end_time_from(row)
         self.weeks = ''
-        self.class_type = ''
-        self.location = ''
-        self.teacher = ''
+        self.class_type = self.get_class_type_from(row)
+        self.location = self.get_location_from(row)
+        self.teacher = self.get_teacher_from(row)
 
     def append_to_ics(self, file_name, day):
 
@@ -43,6 +43,44 @@ class Event:
         print('LOCATION:' + self.location)
         print('TRANSP:OPAQUE')
         print('END:VEVENT')
+
+    # Setters for Event instances
+    @staticmethod
+    def get_class_title_from(row):
+        return row[InputConverter.teacher_column()]
+
+    @staticmethod
+    def get_week_day_from(row):
+        # natural_language_day = row[InputConverter.day_column()]
+        d_index = InputConverter.get_week_day_index(row[InputConverter.day_column()])
+        return d_index
+
+    @staticmethod
+    def get_start_time_from(row):
+        start_time = row[InputConverter.time_column()][0:2] + row[InputConverter.time_column()][3:5]
+        return start_time
+
+    @staticmethod
+    def get_end_time_from(row):
+        end_time = row[InputConverter.time_column()][6:8] + row[InputConverter.time_column()][9:]
+        return end_time
+
+    @staticmethod
+    def get_weeks_from(row):
+        # ADD WEEKS BULLSHIT ANALYZER HERE
+        return 0
+
+    @staticmethod
+    def get_class_type_from(row):
+        return row[InputConverter.class_title_column()]
+
+    @staticmethod
+    def get_location_from(row):
+        return row[InputConverter.room_column()]
+
+    @staticmethod
+    def get_teacher_from(row):
+        return row[InputConverter.teacher_column()]
 
 
 class FileHandler:
@@ -168,6 +206,7 @@ class InputConverter:
                 print('Header not found.')
                 sys.exit(0)
 
+    # getters of column indexes
     @staticmethod
     def get_week_day_index(week_day):
         d_index = InputConverter.pl_weekdays.index(week_day)
@@ -204,42 +243,3 @@ class InputConverter:
     @staticmethod
     def group_column():
         return InputConverter.__HEADERS__['Group']
-
-    @staticmethod
-    def get_class_title_from(row):
-        return row[InputConverter.teacher_column()]
-
-    @staticmethod
-    def get_week_day_from(row):
-        # implementation...
-        return 0
-
-    @staticmethod
-    def get_start_time_from(row):
-        # implementation...
-        return 0
-
-    @staticmethod
-    def get_end_time_from(row):
-        # implementation...
-        return 0
-
-    @staticmethod
-    def get_weeks_from(row):
-        # implementation...
-        return 0
-
-    @staticmethod
-    def get_class_type_from(row):
-        # implementation...
-        return 0
-
-    @staticmethod
-    def get_location_from(row):
-        # implementation...
-        return 0
-
-    @staticmethod
-    def get_teacher_from(row):
-        # implementation...
-        return 0
