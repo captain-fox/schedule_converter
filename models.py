@@ -6,6 +6,7 @@ from _datetime import *
 class Event:
 
     TIME_ZONE = 'Europe/Warsaw'
+    EVENTS = []
 
     def __init__(self, row):
 
@@ -44,6 +45,16 @@ class Event:
         print('LOCATION:' + self.location)
         print('TRANSP:OPAQUE')
         print('END:VEVENT')
+
+    @staticmethod
+    def collect_events_for_group(rows, gr):
+        for r in rows[:len(rows) - 1]:
+
+            if r[InputConverter.group_column()] == gr:
+                if r[InputConverter.class_title_column()] == '':
+                    continue
+                else:
+                    Event.EVENTS.append(Event(r))
 
 
 class FileHandler:
@@ -145,7 +156,6 @@ class Group:
         counter = 1
 
         try:
-            number_of_rows = sum(1 for i in rows[1:])
             #using set to store unique values only
             groups = set([])
 
