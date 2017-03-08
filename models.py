@@ -1,5 +1,6 @@
 import csv
 import sys
+from _datetime import *
 
 
 class Event:
@@ -39,7 +40,7 @@ class Event:
         print('DTSTART;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.start_time + '00')
         print('DTEND;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.end_time + '00')
         print('SUMMARY:' + self.class_title)
-        print('DESCRIPTION: Prowadzący: ' + self.teacher)
+        print('DESCRIPTION: Prowadzący: ' + self.teacher + ' Zajęcia:' + self.class_type)
         print('LOCATION:' + self.location)
         print('TRANSP:OPAQUE')
         print('END:VEVENT')
@@ -56,6 +57,7 @@ class FileHandler:
                 reader = csv.reader(csv_input, delimiter=';')
                 for row in reader:
                     csv_rows.append(row)
+                #     Checking headers
                 InputConverter.check_header(csv_rows[0])
             print('Working on file: ' + file_name + '\n')
 
@@ -95,6 +97,33 @@ class FileHandler:
             sys.exit(0)
 
     @staticmethod
+    def add_to_existing_ics(file_name, event):
+        if isinstance(event, Event):
+            output_file = open(file_name, 'a')
+
+            # TODO mechanism of appending events to calendar
+
+            # i = term_start
+            # # week_num = 0
+            #
+            # while i <= term_end:
+            #
+            #     if i == holidays_start:
+            #         # week_num += 1
+            #         i = holidays_end + time_keeper.timedelta(days=1)
+            #         continue
+            #
+            #     # if i.weekday() == 0:
+            #     #     week_num += 1
+            #
+            #     if i.weekday() == week_day_index:
+            # TODO list of events to iterate through, event as argument "e"
+            #     Event.append_to_ics(e, file_name, i)
+            #     i += time_keeper.timedelta(days=1)
+
+            output_file.close()
+
+    @staticmethod
     def finalise_file(file_name):
 
         output_file = open(file_name, 'a')
@@ -102,12 +131,11 @@ class FileHandler:
         output_file.close()
 
     @staticmethod
-    def add_to_existing_ics(file_name, event):
-        if isinstance(event, Event):
-            output_file = open(file_name, 'a')
-            print('Further implementation...')
-
-            output_file.close()
+    def is_even_week(i):
+        if i % 2 == 0:
+            print('Week x2')
+        else:
+            print('Week x1')
 
 
 class Group:
@@ -117,17 +145,18 @@ class Group:
         counter = 1
 
         try:
-            number_of_rows = sum(1 for row in rows[1:])
+            number_of_rows = sum(1 for i in rows[1:])
             #using set to store unique values only
             groups = set([])
 
-            while counter < number_of_rows:
-                groups.add(rows[counter][12])
+            for row in rows[1:len(rows) - 1]:
+                groups.add(row[InputConverter.group_column()])
                 counter += 1
             # Kicking out empty space element from groups
             if '' in groups:
                 groups.remove('')
 
+            print(len(groups), 'unique groups found')
             return sorted(groups)
 
         except IndexError:
@@ -144,14 +173,14 @@ class Group:
 class InputConverter:
 
     __HEADERS__ = {
-        'Day': '',
-        'Time': '',
-        'Weeks': '',
+        'Day': '',  # weekday
+        'Time': '',  # time event starts and ends
+        'Weeks': '',  # numbers of weeks
         'EventCat': '',
         'Module': '',
-        'Room': '',
-        'Surname': '',
-        'Group': ''
+        'Room': '',  # location
+        'Surname': '',  # teacher
+        'Group': ''  # id of group
     }
 
     pl_weekdays = ['Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb', 'Nd']
@@ -168,12 +197,25 @@ class InputConverter:
                 print('Header not found.')
                 sys.exit(0)
 
-# Getters of column indexes
     @staticmethod
     def get_week_day_index(week_day):
         d_index = InputConverter.pl_weekdays.index(week_day)
         return d_index
 
+    @staticmethod
+    def set_term():
+
+        term_start = date(2016, 9, 26)
+        term_end = date(2017, 1, 25)
+
+        holidays_start = date(2016, 12, 22)
+        holidays_end = date(2017, 1, 2)
+
+        term = [term_start, term_end, holidays_start, holidays_end]
+
+        return term
+
+    # Getters of column indexes
     @staticmethod
     def day_column():
         return InputConverter.__HEADERS__['Day']
@@ -188,11 +230,11 @@ class InputConverter:
 
     @staticmethod
     def class_title_column():
-        return InputConverter.__HEADERS__['EventCat']
+        return InputConverter.__HEADERS__['Module']
 
     @staticmethod
-    def module_column():
-        return InputConverter.__HEADERS__['Module']
+    def event_cat_column():
+        return InputConverter.__HEADERS__['EventCat']
 
     @staticmethod
     def room_column():
@@ -206,13 +248,13 @@ class InputConverter:
     def group_column():
         return InputConverter.__HEADERS__['Group']
 
-# Setters for Event instances
+# Collecting data for specific events
     @staticmethod
     def get_class_title_from(row):
-        return row[InputConverter.teacher_column()]
+        return row[InputConverter.class_title_column()]
 
     @staticmethod
-    def get_week_day_from(row):
+    def get_week_day_from(row):  # returns index of a day!
         # natural_language_day = row[InputConverter.day_column()]
         d_index = InputConverter.get_week_day_index(row[InputConverter.day_column()])
         return d_index
@@ -229,12 +271,12 @@ class InputConverter:
 
     @staticmethod
     def get_weeks_from(row):
-        # ADD WEEKS BULLSHIT ANALYZER HERE
+        # TODO analyse weeks values
         return 0
 
     @staticmethod
     def get_class_type_from(row):
-        return row[InputConverter.class_title_column()]
+        return row[InputConverter.event_cat_column()]
 
     @staticmethod
     def get_location_from(row):
