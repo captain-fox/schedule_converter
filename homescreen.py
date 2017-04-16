@@ -195,6 +195,7 @@ class Window(QWidget):
         if filename[0] is not '':
             self.rows = file_manager.parse_file(filename[0])
             print(filename[0])
+            self.open_file_button.setText('Wybierz inny plik')
 
             # Filling days
             self.term_start_year.setEnabled(True)

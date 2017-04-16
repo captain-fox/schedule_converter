@@ -18,7 +18,7 @@ def open_file(filename):
 def parse_file(filename):
     while True:
             try:
-                if os.path.exists(filename) & filename.endswith('.csv'):
+                if os.path.exists(filename):
                     print('Working on file: ' + filename + '\n')
                     rows = open_file(filename)
                     check_header(rows[0])

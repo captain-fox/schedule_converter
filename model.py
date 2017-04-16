@@ -60,6 +60,7 @@ class Event:
 class FileHandler:
 
     @staticmethod
+    # TODO: pass dictionary as argument
     def read_csv_file(file_name):
 
         csv_rows = []
@@ -67,8 +68,10 @@ class FileHandler:
             with open(file_name, 'rt', encoding='windows 1250') as csv_input:
                 reader = csv.reader(csv_input, delimiter=';')
                 for row in reader:
+                    # TODO:
                     csv_rows.append(row)
                 #     Checking headers
+                # TODO: dictionary as argument
                 InputConverter.check_header(csv_rows[0])
             print('Working on file: ' + file_name + '\n')
 
@@ -156,7 +159,7 @@ class Group:
         counter = 1
 
         try:
-            #using set to store unique values only
+            # using set to store unique values only
             groups = set([])
 
             for row in rows[1:len(rows) - 1]:
@@ -193,6 +196,8 @@ class InputConverter:
         'Group': ''  # id of group
     }
 
+    rows = []
+
     pl_weekdays = ['Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb', 'Nd']
     # en_weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
@@ -213,13 +218,17 @@ class InputConverter:
         return d_index
 
     @staticmethod
-    def set_term():
+    def set_term(sem_start, sem_end, hol_start, hol_end):
 
-        term_start = date(2016, 9, 26)
-        term_end = date(2017, 1, 25)
+        # term_start = date(2016, 9, 26)
+        term_start = sem_start
+        # term_end = date(2017, 1, 25)
+        term_end = sem_end
 
-        holidays_start = date(2016, 12, 22)
-        holidays_end = date(2017, 1, 2)
+        # holidays_start = date(2016, 12, 22)
+        holidays_start = hol_start
+        # holidays_end = date(2017, 1, 2)
+        holidays_end = hol_end
 
         term = [term_start, term_end, holidays_start, holidays_end]
 
