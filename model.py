@@ -197,6 +197,7 @@ class InputConverter:
     }
 
     rows = []
+    term = []
 
     pl_weekdays = ['Pn', 'Wt', 'Śr', 'Czw', 'Pt', 'Sb', 'Nd']
     # en_weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
