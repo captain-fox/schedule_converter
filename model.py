@@ -24,10 +24,8 @@ class Event:
 
         output_file = open(file_name, 'a')
         output_file.write('BEGIN:VEVENT\n')
-        output_file.write(
-            'DTSTART;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.start_time + '00\n')
-        output_file.write(
-            'DTEND;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.end_time + '00\n')
+        output_file.write('DTSTART;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.start_time + '00\n')
+        output_file.write('DTEND;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.end_time + '00\n')
         output_file.write('SUMMARY:' + self.class_title + '\n')
         output_file.write('DESCRIPTION: Prowadzący: ' + self.teacher + '\n')
         output_file.write('LOCATION:' + self.location + '\n')
@@ -42,7 +40,7 @@ class Event:
         print('DTSTART;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.start_time + '00')
         print('DTEND;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.end_time + '00')
         print('SUMMARY:' + self.class_title)
-        print('DESCRIPTION: Prowadzący: ' + self.teacher + ' Zajęcia:' + self.class_type)
+        print('DESCRIPTION: Prowadzący: ' + self.teacher + '; Rodzaj zajęć:' + self.class_type)
         print('LOCATION:' + self.location)
         print('TRANSP:OPAQUE')
         print('END:VEVENT')
@@ -61,19 +59,16 @@ class Event:
 class FileHandler:
 
     @staticmethod
-    # TODO: pass dictionary as argument
-    def read_csv_file(file_name):
+    def read_csv_file(file_name, headers_dictionary):
 
         csv_rows = []
         try:
             with open(file_name, 'rt', encoding='windows 1250') as csv_input:
                 reader = csv.reader(csv_input, delimiter=';')
                 for row in reader:
-                    # TODO:
                     csv_rows.append(row)
                 #     Checking headers
-                # TODO: dictionary as argument
-                InputConverter.check_header(csv_rows[0])
+                InputConverter.check_header(csv_rows[0], headers_dictionary)
             print('Working on file: ' + file_name + '\n')
 
             return csv_rows

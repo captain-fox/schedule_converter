@@ -18,11 +18,11 @@ class InputConverter:
     # en_weekdays = ['MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT', 'SUN']
 
     @staticmethod
-    def check_header(header_row):
+    def check_header(header_row, headers):
         for columnHeader in header_row:
-            if columnHeader in InputConverter.__HEADERS__:
-                InputConverter.__HEADERS__[columnHeader] = header_row.index(columnHeader)
-        for value in InputConverter.__HEADERS__.values():
+            if columnHeader in headers:
+                headers[columnHeader] = header_row.index(columnHeader)
+        for value in headers.values():
             # show header and index ...
             if value is '':
                 print('Header not found.')

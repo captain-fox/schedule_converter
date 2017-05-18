@@ -1,8 +1,11 @@
 from model import *
 from _datetime import *
 
+
+# Facade between GUI and back-end
+
 filename = '17l.txt'
-schedule = FileHandler.read_csv_file(filename)
+schedule = FileHandler.read_csv_file(filename, InputConverter.__HEADERS__)
 term = InputConverter.set_term(date(2016, 9, 26), date(2017, 1, 25), date(2016, 12, 22), date(2017, 1, 2))
 groups = Group.get_groups(schedule)
 print(groups)
