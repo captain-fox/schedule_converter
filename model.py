@@ -1,7 +1,6 @@
 import csv
-import sys
+
 from InputConverter import *
-from _datetime import *
 
 
 class Event:
@@ -107,13 +106,13 @@ class FileHandler:
             sys.exit(0)
 
     @staticmethod
-    def add_to_existing_ics(file_name, event):
+    def add_to_existing_ics(file_name, event, term):
         if isinstance(event, Event):
             output_file = open(file_name, 'a')
 
             # TODO mechanism of appending events to calendar
 
-            # i = term_start
+            # i = term[term_start]
             # # week_num = 0
             #
             # while i <= term_end:
@@ -146,6 +145,47 @@ class FileHandler:
             print('Week x2')
         else:
             print('Week x1')
+
+
+class Term:
+
+    TERM_CREATED = False
+
+    def __init__(self, term_start, term_end, holidays_start, holidays_end, day_offs=None):
+
+        if not self.TERM_CREATED:
+            self.term_start = term_start
+            self.term_end = term_end
+            self.holidays_start = holidays_start
+            self.holidays_end = holidays_end
+            self.day_offs = day_offs
+            self.TERM_CREATED = True
+        else:
+            self.update_term()
+
+
+    def update_term(self):
+        # TODO: Loop through db and update records that have changed.
+        print('Implementation...')
+
+
+    def return_term_start(self):
+        return self.term_start
+
+    def return_term_end(self):
+        return self.term_end
+
+    def return_holidays_start(self):
+        return self.holidays_start
+
+    def return_holidays_end(self):
+        return self.holidays_end
+
+    def return_day_offs(self):
+        return self.day_offs
+
+    # def make(self, day_from, day_to):
+        # make monday friday
 
 
 class Group:
