@@ -149,25 +149,26 @@ class FileHandler:
 
 class Term:
 
-    TERM_CREATED = False
+    TERM_INITIALIZED = False
 
     def __init__(self, term_start, term_end, holidays_start, holidays_end, day_offs=None):
 
-        if not self.TERM_CREATED:
+        if not self.TERM_INITIALIZED:
             self.term_start = term_start
             self.term_end = term_end
             self.holidays_start = holidays_start
             self.holidays_end = holidays_end
             self.day_offs = day_offs
-            self.TERM_CREATED = True
+            self.TERM_INITIALIZED = True
         else:
             self.update_term()
 
 
-    def update_term(self):
+    def update_term(self, *args):
         # TODO: Loop through db and update records that have changed.
+        for arg in args:
+            # TODO: strategy pattern method for field update.
         print('Implementation...')
-
 
     def return_term_start(self):
         return self.term_start
@@ -184,8 +185,8 @@ class Term:
     def return_day_offs(self):
         return self.day_offs
 
-    # def make(self, day_from, day_to):
-        # make monday friday
+    def make(self, day_from, day_to):
+        day_from = day_to
 
 
 class Group:
