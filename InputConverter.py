@@ -33,23 +33,6 @@ class InputConverter:
         d_index = InputConverter.pl_weekdays.index(week_day)
         return d_index
 
-    @staticmethod
-    def set_term(sem_start, sem_end, hol_start, hol_end):
-
-        # term_start = date(2016, 9, 26)
-        term_start = sem_start
-        # term_end = date(2017, 1, 25)
-        term_end = sem_end
-
-        # holidays_start = date(2016, 12, 22)
-        holidays_start = hol_start
-        # holidays_end = date(2017, 1, 2)
-        holidays_end = hol_end
-
-        term = [term_start, term_end, holidays_start, holidays_end]
-
-        return term
-
     # Getters of column indexes
     @staticmethod
     def day_column():
@@ -96,6 +79,7 @@ class InputConverter:
 
     @staticmethod
     def get_start_time_from(row):
+        # TODO: use .split('-') instead!
         start_time = row[InputConverter.time_column()][0:2] + row[InputConverter.time_column()][3:5]
         return start_time
 
