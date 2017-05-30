@@ -35,23 +35,25 @@ class Event:
     def preview_ics_output(self, day):
 
         print('BEGIN:VEVENT')
-        print('DTSTART;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.start_time + '00')
-        print('DTEND;TZID=' + self.TIME_ZONE + ':' + day.strftime('%Y%m%d') + 'T' + self.end_time + '00')
-        print('SUMMARY:' + self.class_title)
-        print('DESCRIPTION: Prowadzący: ' + self.teacher + '; Rodzaj zajęć:' + self.class_type)
-        print('LOCATION:' + self.location)
+        print('DTSTART;TZID={}:{}T{}00'.format(self.TIME_ZONE, day.strftime('%Y%m%d'), self.start_time))
+        print('DTEND;TZID={}:{}T{}00'.format(self.TIME_ZONE, day.strftime('%Y%m%d'), self.end_time))
+        print('SUMMARY:{}'.format(self.class_title))
+        print('DESCRIPTION: Prowadzący: {}; Rodzaj zajęć: {}'.format(self.teacher, self.class_type))
+        print('LOCATION:{}'.format(self.location))
         print('TRANSP:OPAQUE')
         print('END:VEVENT')
 
     @staticmethod
     def collect_events_for_group(schedule, group):
-        for _class in schedule[:len(schedule) - 1]:
-
-            if _class[InputConverter.group_column()] == group:
-                if _class[InputConverter.class_title_column()] == '':
-                    continue
-                else:
-                    Event.EVENTS.append(Event(_class))
+        try:
+            for _class in schedule[:len(schedule)-1]:
+                if _class[InputConverter.group_column()] == group:
+                    if _class[InputConverter.class_title_column()] == '':
+                        continue
+                    else:
+                        Event.EVENTS.append(Event(_class))
+        except Exception as e:
+            print('Unpredicted exception while collecting events: {}'.format(e))
 
 
 class Group:
@@ -65,13 +67,16 @@ class Group:
             groups = set([])
 
             for row in rows[1:len(rows) - 1]:
+                if row[InputConverter.group_column()] == '':
+                    continue
                 groups.add(row[InputConverter.group_column()])
                 counter += 1
-            # Kicking out empty space element from groups
-            if '' in groups:
-                groups.remove('')
 
-            print(len(groups), 'unique groups found')
+            # Kicking out empty space element from groups
+            # if '' in groups:
+            #     groups.remove('')
+
+            print('{} unique groups found'.format(len(groups)))
             return sorted(groups)
 
         except IndexError:
@@ -80,8 +85,8 @@ class Group:
         except TypeError:
             print('get_groups method in \'Groups\' tried to read non-existing file or file with unexpected structure.')
             sys.exit(0)
-        except Exception as ex:
-            print('Unexpected type of exception: "', ex, '" occurred in get_groups method.')
+        except Exception as e:
+            print('Unexpected type of exception: "{}" occurred in get_groups method.'.format(e))
             sys.exit(0)
 
 
