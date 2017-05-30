@@ -1,7 +1,6 @@
 class Term:
 
     __instantiated = False
-    # TODO: observer for term change and auto-update of schedule.
 
     def __init__(self, term_start, term_end, holidays_start, holidays_end, day_offs=None):
 
@@ -18,7 +17,7 @@ class Term:
         else:
             print('Updating...')
             self.update_term(term_start, term_end, holidays_start, holidays_end)
-            self.notify_observers()
+            # self.notify_observers()
 
     @classmethod
     def instantiated(cls):
@@ -29,13 +28,12 @@ class Term:
         # print('Instantiating ' + str(cls))
         cls.__instantiated = True
 
-    def register_observer(self, observer):
+    def add_observer(self, observer):
         self.observers.append(observer)
 
-    def notify_observers(self):
+    def push_update(self):
         for observer in self.observers:
-            # Notify observers
-            # print(observer)
+            observer.update()
 
     def update_term(self, term_start, term_end, holidays_start, holidays_end, day_offs=None):
         # TODO: Loop through db and update records that have changed.
@@ -47,6 +45,10 @@ class Term:
         self.holidays_start = holidays_start
         self.holidays_end = holidays_end
         self.day_offs = day_offs
+
+    def display_term(self):
+        print('Semester starts: {}\nSemester ends: {}\nHolidays start: {}\nHolidays end: {}'
+              .format(self.term_start, self.term_end, self.holidays_start, self.holidays_end))
 
     def return_term_start(self):
         return self.term_start
