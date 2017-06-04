@@ -1,27 +1,29 @@
 from Event import *
 from TermHandler import *
 from _datetime import *
+from InputConverter import *
+from Group import *
 
 
 # Facade between GUI and back-end
 def facade():
+
     filename = '17l.txt'
     schedule = FileHandler.read_csv_file(filename, InputConverter.__HEADERS__)
 
-    sterm = SummerTerm(date(2017, 2, 27), date(2017, 6, 21), date(2017, 4, 14), date(2017, 4, 18))
-    sterm.display_term()
+    term = SummerTerm(date(2017, 2, 27), date(2017, 6, 21), date(2017, 4, 14), date(2017, 4, 18))
+    term.display_term()
 
     groups = Group.get_groups(schedule)
-    # print(groups)
+    print(groups)
 
-    d = date(2017, 1, 2)
-    gr = '6I IO-2'
-    objects = []
+    Event.collect_events_for_group(schedule, '6I IO-2')
 
-    Event.collect_events_for_group(schedule, gr)
-
+    outputfile = None
+    # outputfile = FileHandler.create_and_prepare_file('6I IO-2')
     for e in Event.EVENTS:
-        e.preview_ics_output(d)
+        FileHandler.add_to_existing_ics(e, term, outputfile)
+        # e.preview_ics_output(d)
         print()
 
 if __name__ == '__main__':
