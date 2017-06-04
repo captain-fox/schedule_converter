@@ -1,5 +1,8 @@
 import csv
+from Event import *
 from InputConverter import *
+from TermHandler import *
+from _datetime import *
 
 
 class FileHandler:
@@ -15,7 +18,7 @@ class FileHandler:
                     csv_rows.append(row)
                 #     Checking headers
                 InputConverter.check_header(csv_rows[0], headers_dictionary)
-            print('Working on file: ' + file_name + '\n')
+            print('Working on file: {}\n'.format(file_name))
 
             return csv_rows
 
@@ -27,8 +30,8 @@ class FileHandler:
             sys.exit(0)
         except ValueError:
             print('Not all headers found')
-        except Exception as ex:
-            print('Unexpected type of exception: "', ex, '" occurred in read_csv_file method.')
+        except Exception as e:
+            print('Unexpected type of exception: "{}" occurred in read_csv_file method.'.format(e))
             sys.exit(0)
 
     @staticmethod
@@ -48,36 +51,53 @@ class FileHandler:
         except UnicodeDecodeError:
             print('It\'s not even a text file!')
             sys.exit(0)
-        except Exception as ex:
-            print('Unexpected type of exception: "', ex, '" occurred in create_and_prepare_file method.')
+        except Exception as e:
+            print('Unexpected type of exception: "{}" occurred in create_and_prepare_file method.'.format(e))
             sys.exit(0)
 
     @staticmethod
-    def add_to_existing_ics(file_name, event, term):
-        if isinstance(event, Event):
-            output_file = open(file_name, 'a')
+    def add_to_existing_ics(event, term, filename=None):
 
-            # TODO mechanism of appending events to calendar
+        # Decorator to print/write to file?
 
-            # i = term[term_start]
-            # # week_num = 0
-            #
-            # while i <= term_end:
-            #
-            #     if i == holidays_start:
-            #         # week_num += 1
-            #         i = holidays_end + time_keeper.timedelta(days=1)
-            #         continue
-            #
-            #     # if i.weekday() == 0:
-            #     #     week_num += 1
-            #
-            #     if i.weekday() == week_day_index:
-            # TODO list of events to iterate through, event as argument "e"
-            #     Event.append_to_ics(e, file_name, i)
-            #     i += time_keeper.timedelta(days=1)
+        date_counter = term.term_start
+        # week_num = 0
 
-            output_file.close()
+        while date_counter <= term.term_end:
+
+            if date_counter == term.holidays_start:
+                print('\n\n\n Holidays!!! \n\n\n')
+                # week_num += 1
+                date_counter = term.holidays_end + timedelta(days=1)
+                continue
+
+            # if date_counter.weekday() == 0:
+            #     week_num += 1
+
+            if date_counter.weekday() == event.week_day:
+                if filename is not None:
+                    event.append_to_ics(filename, date_counter)
+                else:
+                    event.preview_ics_output(date_counter)
+                print('\n')
+            date_counter += timedelta(days=1)
+
+            # output_file.close()
+
+    # @staticmethod
+    # def preview_ics(event, term, filename = None):
+    #     if isinstance(event, Event):
+    #         print('Opening file for write...')
+    #         daycounter = term.term_start
+    #
+    #         while daycounter <= term.term_end:
+    #             if daycounter == term.holidays_start:
+    #                 # week_num += 1
+    #                 daycounter = term.holidays_end + timedelta(days=1)
+    #                 continue
+    #
+    #             # if i.weekday() == 0:
+    #             # week_num += 1
 
     @staticmethod
     def finalise_file(file_name):
