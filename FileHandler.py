@@ -59,20 +59,24 @@ class FileHandler:
     def add_to_existing_ics(event, term, filename=None):
 
         # Decorator to print/write to file?
+        # TODO: simplify?
+        if filename is not None:
+            FileHandler.create_and_prepare_file(filename)
+
 
         date_counter = term.term_start
-        # week_num = 0
+        week_num = 0
 
         while date_counter <= term.term_end:
 
             if date_counter == term.holidays_start:
                 print('\n\n\n Holidays!!! \n\n\n')
-                # week_num += 1
+                week_num += 1
                 date_counter = term.holidays_end + timedelta(days=1)
                 continue
 
-            # if date_counter.weekday() == 0:
-            #     week_num += 1
+            if date_counter.weekday() == 0:
+                week_num += 1
 
             if date_counter.weekday() == event.week_day:
                 if filename is not None:
@@ -82,22 +86,8 @@ class FileHandler:
                 print('\n')
             date_counter += timedelta(days=1)
 
-            # output_file.close()
-
-    # @staticmethod
-    # def preview_ics(event, term, filename = None):
-    #     if isinstance(event, Event):
-    #         print('Opening file for write...')
-    #         daycounter = term.term_start
-    #
-    #         while daycounter <= term.term_end:
-    #             if daycounter == term.holidays_start:
-    #                 # week_num += 1
-    #                 daycounter = term.holidays_end + timedelta(days=1)
-    #                 continue
-    #
-    #             # if i.weekday() == 0:
-    #             # week_num += 1
+        if filename is not None:
+            FileHandler.finalise_file(filename)
 
     @staticmethod
     def finalise_file(file_name):
