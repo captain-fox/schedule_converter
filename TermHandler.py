@@ -1,3 +1,6 @@
+from datetime import *
+
+
 class Term:
 
     __instantiated = False
@@ -40,11 +43,16 @@ class Term:
         # for arg in args:
             # TODO: strategy design pattern method for field update instead.
         # print('Implementation...')
-        self.term_start = term_start
-        self.term_end = term_end
-        self.holidays_start = holidays_start
-        self.holidays_end = holidays_end
-        self.day_offs = day_offs
+        if self.term_start != term_start:
+            self.term_start = term_start
+        if self.term_end != term_end:
+            self.term_end = term_end
+        if self.holidays_start != holidays_start:
+            self.holidays_start = holidays_start
+        if self.holidays_end != holidays_end:
+            self.holidays_end = holidays_end
+        if self.day_offs != day_offs:
+            self.day_offs = day_offs
 
     def display_term(self):
         print('Semester starts: {}\nSemester ends: {}\nHolidays start: {}\nHolidays end: {}'
