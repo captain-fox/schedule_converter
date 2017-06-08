@@ -16,9 +16,6 @@ class FileHandler:
             with open(file_name, 'rt', encoding='windows 1250') as csv_input:
                 reader = csv.reader(csv_input, delimiter=';')
                 csv_rows = [row for row in reader]
-                # for row in reader:
-                #     csv_rows.append(row)
-                #     Checking headers
                 InputConverter.check_header(csv_rows[0], headers_dictionary)
             print('Working on file: {}\n'.format(file_name))
 
@@ -58,9 +55,12 @@ class FileHandler:
             sys.exit(0)
 
     @staticmethod
-    def add_to_existing_ics(event, term, filename=None):
+    def process_event(event, term, filename=None):
 
-        processing_strategy = ICSFormatter.select_processing_method(filename)
+        if filename is not None:
+            filename = FileHandler.create_and_prepare_file(filename)
+
+        process_data = ICSFormatter.select_processing_method(filename)
 
         date_counter = term.term_start
         week_num = 0
@@ -68,7 +68,7 @@ class FileHandler:
         while date_counter <= term.term_end:
 
             if date_counter == term.holidays_start:
-                print('\n\n\n Holidays!!! \n\n\n')
+                # print('\n\n\n Holidays!!! \n\n\n')
                 week_num += 1
                 date_counter = term.holidays_end + timedelta(days=1)
                 continue
@@ -78,10 +78,12 @@ class FileHandler:
                 week_num += 1
 
             if date_counter.weekday() == event.week_day:
-                processing_strategy.pass_data(event, date_counter, filename)
+                process_data(event, date_counter, filename)
 
             date_counter += timedelta(days=1)
 
+        if filename is not None:
+            FileHandler.finalise_file(filename)
 
     @staticmethod
     def finalise_file(file_name):
