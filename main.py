@@ -21,8 +21,9 @@ def facade():
 
     outputfile = None
     # outputfile = FileHandler.create_and_prepare_file('6I IO-2')
+    outputfile = '6I IO-2'
     for e in Event.EVENTS:
-        FileHandler.add_to_existing_ics(e, term, outputfile)
+        FileHandler.process_event(e, term, outputfile)
         # e.preview_ics_output(d)
         print()
 
