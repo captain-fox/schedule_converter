@@ -5,8 +5,8 @@ from InputConverter import *
 from Group import *
 
 
-# Facade between GUI and back-end
-def facade():
+# TODO: Facade between GUI and back-end
+def main():
 
     filename = '17l.txt'
     schedule = FileHandler.read_csv_file(filename, InputConverter.__HEADERS__)
@@ -28,4 +28,4 @@ def facade():
         print()
 
 if __name__ == '__main__':
-    facade()
+    main()
