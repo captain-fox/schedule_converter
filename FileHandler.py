@@ -1,6 +1,7 @@
 import csv
 from Event import *
 from InputConverter import *
+from FormattingStrategy import *
 from TermHandler import *
 from _datetime import *
 
@@ -10,12 +11,13 @@ class FileHandler:
     @staticmethod
     def read_csv_file(file_name, headers_dictionary):
 
-        csv_rows = []
+        # csv_rows = []
         try:
             with open(file_name, 'rt', encoding='windows 1250') as csv_input:
                 reader = csv.reader(csv_input, delimiter=';')
-                for row in reader:
-                    csv_rows.append(row)
+                csv_rows = [row for row in reader]
+                # for row in reader:
+                #     csv_rows.append(row)
                 #     Checking headers
                 InputConverter.check_header(csv_rows[0], headers_dictionary)
             print('Working on file: {}\n'.format(file_name))
@@ -58,11 +60,7 @@ class FileHandler:
     @staticmethod
     def add_to_existing_ics(event, term, filename=None):
 
-        # Decorator to print/write to file?
-        # TODO: simplify?
-        if filename is not None:
-            FileHandler.create_and_prepare_file(filename)
-
+        processing_strategy = ICSFormatter.select_processing_method(filename)
 
         date_counter = term.term_start
         week_num = 0
@@ -76,18 +74,14 @@ class FileHandler:
                 continue
 
             if date_counter.weekday() == 0:
+                # Switching weeks x1/x2
                 week_num += 1
 
             if date_counter.weekday() == event.week_day:
-                if filename is not None:
-                    event.append_to_ics(filename, date_counter)
-                else:
-                    event.preview_ics_output(date_counter)
-                print('\n')
+                processing_strategy.pass_data(event, date_counter, filename)
+
             date_counter += timedelta(days=1)
 
-        if filename is not None:
-            FileHandler.finalise_file(filename)
 
     @staticmethod
     def finalise_file(file_name):

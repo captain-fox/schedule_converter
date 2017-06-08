@@ -1,5 +1,6 @@
 from InputConverter import *
 from FileHandler import *
+from abc import abstractmethod, ABCMeta
 
 
 class Event:
@@ -18,7 +19,7 @@ class Event:
         self.location = InputConverter.get_location_from(row)
         self.teacher = InputConverter.get_teacher_from(row)
 
-    def append_to_ics(self, file_name, day):
+    def append_to_ics(self, day, file_name=None):
 
         output_file = open(file_name, 'a')
         output_file.write('BEGIN:VEVENT\n')
@@ -32,7 +33,7 @@ class Event:
         output_file.close()
 
     # test method
-    def preview_ics_output(self, day):
+    def preview_ics_output(self, day, file_name=None):
 
         print('BEGIN:VEVENT')
         print('DTSTART;TZID={}:{}T{}00'.format(self.TIME_ZONE, day.strftime('%Y%m%d'), self.start_time))
