@@ -15,6 +15,7 @@ class ICSFormatter(ABCMeta):
     @abstractmethod
     def pass_data(event, day, filename=None): pass
 
+# TODO: pass enum as ics structure to write/log output.
 
 class FileCreator(ICSFormatter):
 
