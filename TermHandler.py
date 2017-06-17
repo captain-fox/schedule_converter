@@ -17,6 +17,8 @@ class Term:
             self.day_offs = day_offs
             self.observers = []
 
+            # self.display_term()
+
         else:
             print('Updating...')
             self.update_term(term_start, term_end, holidays_start, holidays_end)
