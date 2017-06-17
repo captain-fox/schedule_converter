@@ -14,7 +14,7 @@ class Event:
         self.week_day = InputConverter.get_week_day_from(row)
         self.start_time = InputConverter.get_start_time_from(row)
         self.end_time = InputConverter.get_end_time_from(row)
-        self.weeks = ''
+        self.weeks = InputConverter.get_weeks_from(row)
         self.class_type = InputConverter.get_class_type_from(row)
         self.location = InputConverter.get_location_from(row)
         self.teacher = InputConverter.get_teacher_from(row)

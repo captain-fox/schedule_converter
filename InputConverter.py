@@ -90,8 +90,20 @@ class InputConverter:
 
     @staticmethod
     def get_weeks_from(row):
-        # TODO analyse weeks values
-        return 0
+
+        w = row[InputConverter.weeks_column()].split(',')
+        # test input
+        # w = ['1-5', '8', '9', '10-12', '14']
+        weeks = []
+        for item in w:
+
+            if '-' in item:
+                s = list(map(int, item.split('-')))
+                s = [s for s in range(s[0], s[1] + 1)]
+                weeks.extend(i for i in s)
+            else:
+                weeks.append(item)
+        return weeks
 
     @staticmethod
     def get_class_type_from(row):
