@@ -16,7 +16,7 @@ class FileHandler:
                 reader = csv.reader(csv_input, delimiter=';')
                 for row in reader:
                     csv_rows.append(row)
-                #     Checking headers
+                # Checking headers
                 InputConverter.check_header(csv_rows[0], headers_dictionary)
             print('Working on file: {}\n'.format(file_name))
 
@@ -58,15 +58,13 @@ class FileHandler:
     @staticmethod
     def add_to_existing_ics(event, term, filename=None):
 
-        # Decorator to print/write to file?
-
         date_counter = term.term_start
         # week_num = 0
 
         while date_counter <= term.term_end:
 
             if date_counter == term.holidays_start:
-                print('\n\n\n Holidays!!! \n\n\n')
+                # print('\n\n\n Holidays!!! \n\n\n')
                 # week_num += 1
                 date_counter = term.holidays_end + timedelta(days=1)
                 continue
@@ -76,28 +74,11 @@ class FileHandler:
 
             if date_counter.weekday() == event.week_day:
                 if filename is not None:
-                    event.append_to_ics(filename, date_counter)
+                    event.append_to_ics(date_counter, filename)
                 else:
-                    event.preview_ics_output(date_counter)
-                print('\n')
+                    event.return_ics_event(date_counter, sys.stdout)
+                    print('\n')
             date_counter += timedelta(days=1)
-
-            # output_file.close()
-
-    # @staticmethod
-    # def preview_ics(event, term, filename = None):
-    #     if isinstance(event, Event):
-    #         print('Opening file for write...')
-    #         daycounter = term.term_start
-    #
-    #         while daycounter <= term.term_end:
-    #             if daycounter == term.holidays_start:
-    #                 # week_num += 1
-    #                 daycounter = term.holidays_end + timedelta(days=1)
-    #                 continue
-    #
-    #             # if i.weekday() == 0:
-    #             # week_num += 1
 
     @staticmethod
     def finalise_file(file_name):

@@ -7,8 +7,8 @@ class InputConverter:
         'Day': '',  # weekday
         'Time': '',  # time event starts and ends
         'Weeks': '',  # numbers of weeks
-        'EventCat': '',
-        'Module': '',
+        'EventCat': '',  # type of class
+        'Module': '',   # title
         'Room': '',  # location
         'Surname': '',  # teacher
         'Group': ''  # id of group
