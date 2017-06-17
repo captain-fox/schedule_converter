@@ -1,5 +1,6 @@
 from InputConverter import *
 from FileHandler import *
+import sys
 
 
 class Event:
@@ -34,14 +35,18 @@ class Event:
     # test method
     def preview_ics_output(self, day):
 
-        print('BEGIN:VEVENT')
-        print('DTSTART;TZID={}:{}T{}00'.format(self.TIME_ZONE, day.strftime('%Y%m%d'), self.start_time))
-        print('DTEND;TZID={}:{}T{}00'.format(self.TIME_ZONE, day.strftime('%Y%m%d'), self.end_time))
-        print('SUMMARY:{}'.format(self.class_title))
-        print('DESCRIPTION: Prowadzący: {}; Rodzaj zajęć: {}'.format(self.teacher, self.class_type))
-        print('LOCATION:{}'.format(self.location))
-        print('TRANSP:OPAQUE')
-        print('END:VEVENT')
+        buffer = '\n'.join([
+            'BEGIN:VEVENT',
+            'DTSTART;TZID={}:{}T{}00'.format(self.TIME_ZONE, day.strftime('%Y%m%d'), self.start_time),
+            'DTEND;TZID={}:{}T{}00'.format(self.TIME_ZONE, day.strftime('%Y%m%d'), self.end_time),
+            'SUMMARY:{}'.format(self.class_title),
+            'DESCRIPTION: Prowadzący: {}; Rodzaj zajęć: {}'.format(self.teacher, self.class_type),
+            'LOCATION:{}'.format(self.location),
+            'TRANSP:OPAQUE',
+            'END:VEVENT',
+        ])
+
+        sys.stdout.write(buffer)
 
     @staticmethod
     def collect_events_for_group(schedule, group):
