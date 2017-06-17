@@ -100,9 +100,10 @@ class InputConverter:
             if '-' in item:
                 s = list(map(int, item.split('-')))
                 s = [s for s in range(s[0], s[1] + 1)]
-                weeks.extend(i for i in s)
+                weeks.extend(s)
             else:
                 weeks.append(item)
+        # print(weeks)
         return weeks
 
     @staticmethod
