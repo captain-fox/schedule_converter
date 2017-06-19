@@ -6,7 +6,7 @@ class ICSFormatter(ABCMeta):
 
     @staticmethod
     @abstractmethod
-    def create_ics(event, day, filename):
+    def create_ics(event, day, output):
         raise NotImplementedError('Can\'t call abstract method!')
 
 
@@ -14,17 +14,17 @@ class FileCreator(ICSFormatter):
 
     @staticmethod
     def create_ics(event, day, output):
-        # create_and_prepare_file
+
         with open(output+'.ics', 'a') as output_file:
             output_file.write('\n')
             ConsoleLogger.create_ics(event, day, output_file)
-        # finalise file
 
 
 class ConsoleLogger(ICSFormatter):
 
     @staticmethod
     def create_ics(event, day, output=sys.stdout):
+
         buffer = '\n'.join([
             'BEGIN:VEVENT',
             'DTSTART;TZID={}:{}T{}00'.format(event.TIME_ZONE, day.strftime('%Y%m%d'), event.start_time),
