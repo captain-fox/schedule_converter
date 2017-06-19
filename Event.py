@@ -19,26 +19,6 @@ class Event:
         self.location = InputConverter.get_location_from(row)
         self.teacher = InputConverter.get_teacher_from(row)
 
-    def append_to_ics(self, day, output):
-        with open(output, 'a') as output_file:
-            output_file.write('\n')
-            self.return_ics_event(day, output_file)
-
-    def return_ics_event(self, day, output=sys.stdout):
-
-        buffer = '\n'.join([
-            'BEGIN:VEVENT',
-            'DTSTART;TZID={}:{}T{}00'.format(self.TIME_ZONE, day.strftime('%Y%m%d'), self.start_time),
-            'DTEND;TZID={}:{}T{}00'.format(self.TIME_ZONE, day.strftime('%Y%m%d'), self.end_time),
-            'SUMMARY:{}'.format(self.class_title),
-            'DESCRIPTION: Prowadzący: {}; Rodzaj zajęć: {}'.format(self.teacher, self.class_type),
-            'LOCATION:{}'.format(self.location),
-            'TRANSP:OPAQUE',
-            'END:VEVENT',
-        ])
-
-        output.write(buffer)
-
     @staticmethod
     def collect_events_for_group(schedule, group):
         try:
