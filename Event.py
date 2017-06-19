@@ -6,7 +6,7 @@ import sys
 class Event:
 
     TIME_ZONE = 'Europe/Warsaw'
-    EVENTS = []
+    # EVENTS = []
 
     def __init__(self, row):
 
@@ -21,9 +21,10 @@ class Event:
 
     def append_to_ics(self, day, output):
         with open(output, 'a') as output_file:
+            output_file.write('\n')
             self.return_ics_event(day, output_file)
 
-    def return_ics_event(self, day, output):
+    def return_ics_event(self, day, output=sys.stdout):
 
         buffer = '\n'.join([
             'BEGIN:VEVENT',
@@ -41,12 +42,15 @@ class Event:
     @staticmethod
     def collect_events_for_group(schedule, group):
         try:
+            class_set = []
             for _class in schedule[:len(schedule)-1]:
                 if _class[InputConverter.group_column()] == group:
                     if _class[InputConverter.class_title_column()] == '':
                         continue
                     else:
-                        Event.EVENTS.append(Event(_class))
+                        class_set.append(Event(_class))
+                        # Event.EVENTS.append(Event(_class))
+            return class_set
         except Exception as e:
             print('Unpredicted exception while collecting events: {}'.format(e))
 
