@@ -56,29 +56,29 @@ class FileHandler:
             sys.exit(0)
 
     @staticmethod
-    def add_to_existing_ics(event, term, filename=None):
+    def add_to_existing_ics(events, term, filename=None):
 
-        date_counter = term.term_start
         # week_num = 0
+        for event in events:
+            date_counter = term.term_start
+            while date_counter <= term.term_end:
 
-        while date_counter <= term.term_end:
+                if date_counter == term.holidays_start:
+                    # print('\n\n\n Holidays!!! \n\n\n')
+                    # week_num += 1
+                    date_counter = term.holidays_end + timedelta(days=1)
+                    continue
 
-            if date_counter == term.holidays_start:
-                # print('\n\n\n Holidays!!! \n\n\n')
-                # week_num += 1
-                date_counter = term.holidays_end + timedelta(days=1)
-                continue
+                # if date_counter.weekday() == 0:
+                #     week_num += 1
 
-            # if date_counter.weekday() == 0:
-            #     week_num += 1
-
-            if date_counter.weekday() == event.week_day:
-                if filename is not None:
-                    event.append_to_ics(date_counter, filename)
-                else:
-                    event.return_ics_event(date_counter, sys.stdout)
-                    print('\n')
-            date_counter += timedelta(days=1)
+                if date_counter.weekday() == event.week_day:
+                    if filename is not None:
+                        event.append_to_ics(date_counter, filename)
+                    else:
+                        event.return_ics_event(date_counter, sys.stdout)
+                        print('\n')
+                date_counter += timedelta(days=1)
 
     @staticmethod
     def finalise_file(file_name):
