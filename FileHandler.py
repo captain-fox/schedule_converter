@@ -3,6 +3,7 @@ from Event import *
 from InputConverter import *
 from TermHandler import *
 from _datetime import *
+from OutputHandler import *
 
 
 class FileHandler:
@@ -56,7 +57,7 @@ class FileHandler:
             sys.exit(0)
 
     @staticmethod
-    def add_to_existing_ics(events, term, filename=None):
+    def add_to_existing_ics(converter, events, term, output):
 
         # week_num = 0
         for event in events:
@@ -64,7 +65,6 @@ class FileHandler:
             while date_counter <= term.term_end:
 
                 if date_counter == term.holidays_start:
-                    # print('\n\n\n Holidays!!! \n\n\n')
                     # week_num += 1
                     date_counter = term.holidays_end + timedelta(days=1)
                     continue
@@ -73,11 +73,8 @@ class FileHandler:
                 #     week_num += 1
 
                 if date_counter.weekday() == event.week_day:
-                    if filename is not None:
-                        event.append_to_ics(date_counter, filename)
-                    else:
-                        event.return_ics_event(date_counter, sys.stdout)
-                        print('\n')
+                    converter(event, date_counter, output)
+
                 date_counter += timedelta(days=1)
 
     @staticmethod
