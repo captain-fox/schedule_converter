@@ -23,7 +23,7 @@ class FileCreator(ICSFormatter):
 class ConsoleLogger(ICSFormatter):
 
     @staticmethod
-    def create_ics(event, day, output=sys.stdout):
+    def create_ics(event, day, output):
 
         buffer = '\n'.join([
             'BEGIN:VEVENT',
