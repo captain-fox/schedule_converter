@@ -79,13 +79,14 @@ class InputConverter:
 
     @staticmethod
     def get_start_time_from(row):
-        # TODO: use .split('-') instead!
-        start_time = row[InputConverter.time_column()][0:2] + row[InputConverter.time_column()][3:5]
+        start_time = row[InputConverter.time_column()].split('-')[0].split(':')
+        start_time = start_time[0]+start_time[1]
         return start_time
 
     @staticmethod
     def get_end_time_from(row):
-        end_time = row[InputConverter.time_column()][6:8] + row[InputConverter.time_column()][9:]
+        end_time = row[InputConverter.time_column()].split('-')[1].split(':')
+        end_time = end_time[0] + end_time[1]
         return end_time
 
     @staticmethod
