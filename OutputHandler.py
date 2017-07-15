@@ -15,7 +15,7 @@ class FileCreator(ICSFormatter):
     @staticmethod
     def create_ics(event, day, output):
 
-        with open(output+'.ics', 'a') as output_file:
+        with open(output, 'a') as output_file:
             output_file.write('\n')
             ConsoleLogger.create_ics(event, day, output_file)
 
