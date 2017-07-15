@@ -59,20 +59,27 @@ class FileHandler:
     @staticmethod
     def add_to_existing_ics(converter, events, term, output):
 
-        # week_num = 0
         for event in events:
+            week_num = 1
+            print('\n\n', 'Week number: ', week_num, '\n\n')
             date_counter = term.term_start
             while date_counter <= term.term_end:
 
                 if date_counter == term.holidays_start:
+                    print('\n\n')
+                    print(date_counter)
+                    print('Holidays')
                     # week_num += 1
                     date_counter = term.holidays_end + timedelta(days=1)
+                    print(date_counter)
+                    print('\n\n')
                     continue
 
-                # if date_counter.weekday() == 0:
-                #     week_num += 1
+                if date_counter.weekday() == 6:
+                    week_num += 1
+                    print('\n\n', 'Week number: ', week_num, '\n\n')
 
-                if date_counter.weekday() == event.week_day:
+                if date_counter.weekday() == event.week_day and week_num in event.weeks:
                     converter(event, date_counter, output)
 
                 date_counter += timedelta(days=1)
