@@ -24,12 +24,10 @@ class Event:
         try:
             class_set = []
             for _class in schedule[:len(schedule)-1]:
-                if _class[InputConverter.group_column()] == group:
-                    if _class[InputConverter.class_title_column()] == '':
-                        continue
-                    else:
-                        class_set.append(Event(_class))
-                        # Event.EVENTS.append(Event(_class))
+                if (_class[InputConverter.group_column()] == group) and (_class[InputConverter.class_title_column()] != ''):
+                    class_set.append(Event(_class))
+                    # Event.EVENTS.append(Event(_class))
+
             return class_set
         except Exception as e:
             print('Unpredicted exception while collecting events: {}'.format(e))
