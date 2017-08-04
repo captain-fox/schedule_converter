@@ -39,6 +39,5 @@ def facade():
         FileHandler.finalise_file(outputfile)
 
 
-
 if __name__ == '__main__':
     facade()
