@@ -17,7 +17,9 @@ def facade():
     term = SummerTerm(date(2017, 2, 27), date(2017, 6, 21), date(2017, 4, 14), date(2017, 4, 18))
     groups = Group.get_groups(schedule)
     print(groups)
-    db = Event.collect_events_for_group(schedule, '6I bl ISA')
+    # db = Event.collect_events_for_group(schedule, '6I bl ISA')
+    # db = Event.collect_events_for_group(schedule, '6I')
+    db = Event.collect_events_for_group(schedule, '6I IO-2')
 
     # # #
 
@@ -26,8 +28,11 @@ def facade():
 
     # # #
 
-    outputfile = '6I bl ISA'
-    # outputfile = None
+    # outputfile = '6I bl ISA'
+    # outputfile = '6I IO-2'
+    # outputfile = '6I bl TMB'
+    # outputfile = '6I'
+    outputfile = None
     if outputfile is None:
         strategy = ConsoleLogger.create_ics
         outputfile = sys.stdout
