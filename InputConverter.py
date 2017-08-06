@@ -103,8 +103,7 @@ class InputConverter:
                 s = [s for s in range(s[0], s[1] + 1)]
                 weeks.extend(s)
             else:
-                weeks.append(item)
-        # print(weeks)
+                weeks.append(int(item))
         return weeks
 
     @staticmethod
